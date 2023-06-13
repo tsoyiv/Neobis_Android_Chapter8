@@ -11,9 +11,10 @@ import android.widget.FrameLayout
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentLoginBinding
-import com.example.my_app_eight.view_models.LoginViewModel
+import com.example.my_app_eight.view_models.login_view_model.LoginViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class LoginFragment : Fragment() {
@@ -31,6 +32,13 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         checkOccupancy()
+        toRegNewUser()
+    }
+
+    private fun toRegNewUser() {
+        binding.registrationTextBtnLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_userRegFragment)
+        }
     }
 
     private fun checkOccupancy() {

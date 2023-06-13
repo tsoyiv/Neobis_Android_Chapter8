@@ -9,5 +9,30 @@
         android:id="@+id/loginFragment"
         android:name="com.example.my_app_eight.fragments.login_fragments.LoginFragment"
         android:label="fragment_login"
-        tools:layout="@layout/fragment_login" />
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_loginFragment_to_userRegFragment"
+            app:destination="@id/userRegFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/userRegFragment"
+        android:name="com.example.my_app_eight.fragments.registration_fragments.UserRegFragment"
+        android:label="fragment_user_reg"
+        tools:layout="@layout/fragment_user_reg" >
+        <action
+            android:id="@+id/action_userRegFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_userRegFragment_to_createPasswordFragment"
+            app:destination="@id/createPasswordFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/createPasswordFragment"
+        android:name="com.example.my_app_eight.fragments.registration_fragments.CreatePasswordFragment"
+        android:label="fragment_create_password"
+        tools:layout="@layout/fragment_create_password" >
+        <action
+            android:id="@+id/action_createPasswordFragment_to_userRegFragment"
+            app:destination="@id/userRegFragment" />
+    </fragment>
 </navigation>

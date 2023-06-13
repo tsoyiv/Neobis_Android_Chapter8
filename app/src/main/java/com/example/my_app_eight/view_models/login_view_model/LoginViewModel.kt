@@ -1,4 +1,4 @@
-package com.example.my_app_eight.view_models
+package com.example.my_app_eight.view_models.login_view_model
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
