@@ -12,7 +12,7 @@ ___3.Find and select the root folder of the project you just cloned from the Git
 ___4.After the project is successfully synced, you can run it on an emulator or on a device connected to your computer. To do this, select "Run app"___
 
 ## Usage
-__After installation user can register in profile. The purpose is that user can share or buy the item. __
+__After installation user can register in profile. The purpose is that user can share or buy the item.__
 
 ## The Author
 *https://t.me/vladiikkkkkkkkk*
