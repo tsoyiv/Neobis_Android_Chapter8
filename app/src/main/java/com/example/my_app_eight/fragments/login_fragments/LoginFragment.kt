@@ -58,7 +58,7 @@ class LoginFragment : Fragment() {
     private fun callSnackBarAndNavigate() {
         val snackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_SHORT)
         val inflater = LayoutInflater.from(snackbar.context)
-        val customSnackbarLayout = inflater.inflate(R.layout.custom_snackbar, null)
+        val customSnackbarLayout = inflater.inflate(R.layout.custom_snackbar_error, null)
 
         val snackbarView = snackbar.view
         snackbarView.setBackgroundColor(Color.TRANSPARENT)
