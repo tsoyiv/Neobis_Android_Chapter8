@@ -41,7 +41,6 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         checkOccupancy()
         toRegNewUser()
-        textToProfilePage()
         loginCheck()
     }
 
@@ -49,6 +48,7 @@ class LoginFragment : Fragment() {
         viewModel.loginResponse.observe(viewLifecycleOwner) { loginResponse ->
             if (loginResponse != null) {
                 Toast.makeText(requireContext(), "You are IN", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_loginFragment_to_profileMenuFragment2)
             } else {
                 checkCorrectness()
                 Toast.makeText(requireContext(), "Incorrect Username or Password", Toast.LENGTH_SHORT).show()
@@ -62,7 +62,7 @@ class LoginFragment : Fragment() {
         }
     }
 
-    private fun textToProfilePage() {
+    private fun testToProfilePage() {
         binding.btnLogin.setOnClickListener {
             findNavController().navigate(R.id.action_loginFragment_to_profileMenuFragment2)
         }
