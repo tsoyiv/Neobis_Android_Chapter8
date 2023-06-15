@@ -3,8 +3,16 @@ package com.example.my_app_eight.view_models.login_view_model
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.my_app_eight.models.LoginRequest
+import com.example.my_app_eight.models.LoginResponse
+import com.example.my_app_eight.models.api.RetrofitInstance
+import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
+
+    private val _loginResponse = MutableLiveData<LoginResponse?>()
+    val loginResponse: LiveData<LoginResponse?> get() = _loginResponse
 
     private val _usernameInput = MutableLiveData<String>()
     val usernameInput: LiveData<String> = _usernameInput
@@ -36,5 +44,23 @@ class LoginViewModel : ViewModel() {
         val password = _passwordInput.value
 
         _isButtonEnabled.value = !username.isNullOrEmpty() && !password.isNullOrEmpty()
+    }
+
+    fun login(firstName: String, password: String) {
+        viewModelScope.launch {
+            try {
+                val loginRequest = LoginRequest(firstName, password)
+                val response = RetrofitInstance.api.login(loginRequest)
+                onResponse(response)
+            } catch (e: Exception) {
+            }
+        }
+    }
+
+    private fun onResponse(loginResponse: LoginResponse?) {
+        if (loginResponse != null) {
+            _loginResponse.value = loginResponse
+        } else {
+        }
     }
 }

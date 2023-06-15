@@ -8,14 +8,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentLoginBinding
+import com.example.my_app_eight.models.LoginRequest
+import com.example.my_app_eight.models.LoginResponse
+import com.example.my_app_eight.models.api.RetrofitInstance
 import com.example.my_app_eight.view_models.login_view_model.LoginViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class LoginFragment : Fragment() {
 
@@ -34,6 +42,24 @@ class LoginFragment : Fragment() {
         checkOccupancy()
         toRegNewUser()
         textToProfilePage()
+        loginCheck()
+    }
+
+    private fun loginCheck() {
+        viewModel.loginResponse.observe(viewLifecycleOwner) { loginResponse ->
+            if (loginResponse != null) {
+                Toast.makeText(requireContext(), "You are IN", Toast.LENGTH_SHORT).show()
+            } else {
+                checkCorrectness()
+                Toast.makeText(requireContext(), "Incorrect Username or Password", Toast.LENGTH_SHORT).show()
+            }
+        }
+        binding.btnLogin.setOnClickListener {
+            val firstName = binding.inputFirstName.text.toString()
+            val password = binding.inputLoginPassword.text.toString()
+
+            viewModel.login(firstName, password)
+        }
     }
 
     private fun textToProfilePage() {
@@ -49,7 +75,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun checkOccupancy() {
-        binding.inputLogin.addTextChangedListener { text ->
+        binding.inputFirstName.addTextChangedListener { text ->
             viewModel.onUsernameTextChanged(text)
         }
         binding.inputLoginPassword.addTextChangedListener { text ->
@@ -88,8 +114,8 @@ class LoginFragment : Fragment() {
 
     private fun checkCorrectness() {
         viewModel.isUsernameValid.observe(viewLifecycleOwner) { isValid ->
-            val inputLayout = binding.textInputFragmentLogin
-            val editText = binding.inputLogin
+            val inputLayout = binding.textInputFragmentFirstName
+            val editText = binding.inputFirstName
 
             if (isValid) {
                 inputLayout.boxStrokeColor = ContextCompat.getColor(requireContext(), R.color.inputBlack)
