@@ -1,6 +1,7 @@
 package com.example.my_app_eight.fragments.registration_fragments
 
 import android.os.Bundle
+import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -30,11 +31,13 @@ class CreatePasswordFragment : Fragment() {
         toRegUserPage()
         validatePassword()
     }
+
     private fun validatePassword() {
-        binding.firstPasswordInput.addTextChangedListener { text ->
+
+        binding.firstInputPassword.addTextChangedListener { text ->
             viewModel.onPasswordTextChanged(text)
         }
-        binding.secondPasswordInput.addTextChangedListener { text ->
+        binding.secondInputPassword.addTextChangedListener { text ->
             viewModel.onConfirmPasswordTextChanged(text)
         }
         viewModel.isButtonEnabled.observe(viewLifecycleOwner) { isEnabled ->
