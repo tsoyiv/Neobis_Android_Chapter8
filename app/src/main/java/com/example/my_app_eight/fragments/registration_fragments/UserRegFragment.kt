@@ -6,16 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentUserRegBinding
+import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
 import com.example.my_app_eight.view_models.reg_view_model.UserRegViewModel
 
 class UserRegFragment : Fragment() {
 
     private lateinit var binding: FragmentUserRegBinding
-    val viewModel : UserRegViewModel by viewModels()
+    val viewModel: UserRegViewModel by viewModels()
+    val viewModelHolder : HolderViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -24,11 +27,22 @@ class UserRegFragment : Fragment() {
         binding = FragmentUserRegBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         returnToLoginPage()
         toCreatePassword()
         checkOccupancy()
+        fillUserInfo()
+    }
+
+    private fun fillUserInfo() {
+        binding.btnRegToPasswordPage.setOnClickListener {
+            viewModelHolder.first_name = binding.regInputUsername.text.toString()
+            viewModelHolder.email = binding.regInputEmail.text.toString()
+
+            findNavController().navigate(R.id.action_userRegFragment_to_createPasswordFragment)
+        }
     }
 
     private fun toCreatePassword() {
@@ -36,11 +50,13 @@ class UserRegFragment : Fragment() {
             findNavController().navigate(R.id.action_userRegFragment_to_createPasswordFragment)
         }
     }
+
     private fun returnToLoginPage() {
         binding.btnReturnToLogin.setOnClickListener {
             findNavController().navigate(R.id.action_userRegFragment_to_loginFragment)
         }
     }
+
     private fun checkOccupancy() {
         binding.regInputUsername.addTextChangedListener { text ->
             viewModel.onUsernameTextChanged(text)

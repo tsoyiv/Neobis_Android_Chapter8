@@ -1,22 +1,31 @@
 package com.example.my_app_eight.fragments.registration_fragments
 
 import android.os.Bundle
-import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentCreatePasswordBinding
+import com.example.my_app_eight.models.UserRegRequest
+import com.example.my_app_eight.models.api.RetrofitInstance
 import com.example.my_app_eight.view_models.reg_view_model.CreatePasswordViewModel
+import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
+import com.example.my_app_eight.view_models.reg_view_model.UserRegViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class CreatePasswordFragment : Fragment() {
 
     private lateinit var binding: FragmentCreatePasswordBinding
     val viewModel : CreatePasswordViewModel by viewModels()
+    val viewModelHolder : HolderViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,10 +39,52 @@ class CreatePasswordFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         toRegUserPage()
         validatePassword()
+        creationPassword()
+    }
+
+    private fun creationPassword() {
+        binding.btnFinishReg.setOnClickListener {
+            val password1 = binding.firstInputPassword.text.toString()
+            val password2 = binding.secondInputPassword.text.toString()
+
+            if (password1 == password2) {
+                viewModelHolder.password = password1
+                registerUser()
+            } else {
+                Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    private fun registerUser() {
+        val api = RetrofitInstance.api
+        val requestBody = UserRegRequest(
+            first_name = viewModelHolder.first_name ?: "",
+            email = viewModelHolder.email ?: "",
+            password = viewModelHolder.password ?: "",
+            confirm_password = viewModelHolder.password ?: ""
+        )
+
+        val call = api.registerUser(requestBody)
+        call.enqueue(object : Callback<Unit> {
+            override fun onResponse(
+                call: Call<Unit>,
+                response: Response<Unit>
+            ) {
+                if (response.isSuccessful) {
+                    //val email = viewModelHolder.email ?: ""
+                    Toast.makeText(requireContext(), "User successfully registered.", Toast.LENGTH_SHORT).show()
+                    //callDialog(email)
+                    //findNavController().navigate(R.id.action_createPasswordFragment_to_loginFragment)
+                } else {
+                    Toast.makeText(requireContext(), "User with this email already exist", Toast.LENGTH_SHORT).show()
+                }
+            }
+            override fun onFailure(call: Call<Unit>, t: Throwable) {
+            }
+        })
     }
 
     private fun validatePassword() {
-
         binding.firstInputPassword.addTextChangedListener { text ->
             viewModel.onPasswordTextChanged(text)
         }
