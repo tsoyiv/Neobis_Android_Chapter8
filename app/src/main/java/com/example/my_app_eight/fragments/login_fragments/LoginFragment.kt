@@ -33,6 +33,13 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         checkOccupancy()
         toRegNewUser()
+        textToProfilePage()
+    }
+
+    private fun textToProfilePage() {
+        binding.btnLogin.setOnClickListener {
+            findNavController().navigate(R.id.action_loginFragment_to_profileMenuFragment2)
+        }
     }
 
     private fun toRegNewUser() {

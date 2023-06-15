@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F7F6F9"
+    tools:context=".fragments.main_fragments.profile_fragments.ProfileEditFragment">
+
+
+    <ImageView
+        android:id="@+id/btn_ready"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/btn_save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btn_reset"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/stop_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/profile_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:src="@drawable/image_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="Выбрать фотографию"
+        android:textColor="#5458EA"
+        android:textSize="16sp"
+        android:clickable="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/profile_img" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/first_field"
+        android:layout_width="335dp"
+        android:layout_height="165dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="225dp"
+        android:background="@drawable/rounded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:id="@+id/editTextName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Имя"
+            android:textSize="16sp"
+            android:textColor="#C0C0C0"
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:paddingStart="16dp"
+            android:padding="10dp"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/editTextSurname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Фамилия"
+            android:paddingStart="16dp"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="#C0C0C0"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@id/editTextName" />
+
+        <EditText
+            android:id="@+id/editTextNickname"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Псевдоним"
+            android:textSize="16sp"
+            android:paddingStart="16dp"
+            android:textColor="#C0C0C0"
+            android:textStyle="bold"
+            android:background="@android:color/transparent"
+            android:padding="10dp"
+            app:layout_constraintTop_toBottomOf="@id/editTextSurname" />
+
+        <EditText
+            android:id="@+id/editTextBirthday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@android:color/transparent"
+            android:hint="Дата Рождения"
+            android:paddingStart="16dp"
+            android:textStyle="bold"
+            android:padding="10dp"
+            android:textColor="#C0C0C0"
+            android:textSize="16sp"
+            app:layout_constraintTop_toBottomOf="@id/editTextNickname" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/second_field"
+        android:layout_width="335dp"
+        android:layout_height="90dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/rounded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/first_field">
+
+        <TextView
+            android:id="@+id/add_number"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="10dp"
+            android:text="Изменить номер"
+            android:textColor="#5458EA"
+            android:textSize="16sp"
+            android:clickable="true"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/change_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="21dp"
+            android:text="nikitina.alesya@gmail.com"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add_number" />
+
+        <TextView
+            android:id="@+id/number_visibility"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:text="+996 (000) 00 00 00"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

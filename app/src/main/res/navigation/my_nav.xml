@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_loginFragment_to_userRegFragment"
             app:destination="@id/userRegFragment" />
+        <action
+            android:id="@+id/action_loginFragment_to_profileMenuFragment2"
+            app:destination="@id/profileMenuFragment2" />
     </fragment>
     <fragment
         android:id="@+id/userRegFragment"
@@ -35,4 +38,57 @@
             android:id="@+id/action_createPasswordFragment_to_userRegFragment"
             app:destination="@id/userRegFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.my_app_eight.fragments.main_fragments.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" />
+    <fragment
+        android:id="@+id/profileMenuFragment2"
+        android:name="com.example.my_app_eight.fragments.main_fragments.profile_fragments.ProfileMenuFragment"
+        android:label="fragment_profile_menu"
+        tools:layout="@layout/fragment_profile_menu" >
+        <action
+            android:id="@+id/action_profileMenuFragment2_to_profileEditFragment"
+            app:destination="@id/profileEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileEditFragment"
+        android:name="com.example.my_app_eight.fragments.main_fragments.profile_fragments.ProfileEditFragment"
+        android:label="fragment_profile_edit"
+        tools:layout="@layout/fragment_profile_edit" >
+        <action
+            android:id="@+id/action_profileEditFragment_to_profileMenuFragment2"
+            app:destination="@id/profileMenuFragment2" />
+        <action
+            android:id="@+id/action_profileEditFragment_to_profileNumbFragment"
+            app:destination="@id/profileNumbFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileNumbFragment"
+        android:name="com.example.my_app_eight.fragments.main_fragments.profile_fragments.ProfileNumbFragment"
+        android:label="fragment_profile_numb"
+        tools:layout="@layout/fragment_profile_numb" >
+        <action
+            android:id="@+id/action_profileNumbFragment_to_profileEditFragment"
+            app:destination="@id/profileEditFragment" />
+        <action
+            android:id="@+id/action_profileNumbFragment_to_profileCodeFragment"
+            app:destination="@id/profileCodeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileCodeFragment"
+        android:name="com.example.my_app_eight.fragments.main_fragments.profile_fragments.ProfileCodeFragment"
+        android:label="fragment_profile_code"
+        tools:layout="@layout/fragment_profile_code" >
+        <action
+            android:id="@+id/action_profileCodeFragment_to_profileEditFragment"
+            app:destination="@id/profileEditFragment" />
+        <action
+            android:id="@+id/action_profileCodeFragment_to_profileNumbFragment"
+            app:destination="@id/profileNumbFragment" />
+    </fragment>
+    <!--    <activity-->
+<!--        android:name="com.example.my_app_eight.HomeActivity"-->
+<!--        app:startDestination="@id/mainFragment" />-->
 </navigation>
