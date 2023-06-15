@@ -56,7 +56,6 @@ class LoginViewModel : ViewModel() {
             }
         }
     }
-
     private fun onResponse(loginResponse: LoginResponse?) {
         if (loginResponse != null) {
             _loginResponse.value = loginResponse

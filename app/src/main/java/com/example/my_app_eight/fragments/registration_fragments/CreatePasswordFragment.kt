@@ -1,6 +1,9 @@
 package com.example.my_app_eight.fragments.registration_fragments
 
+import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -14,9 +17,11 @@ import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentCreatePasswordBinding
 import com.example.my_app_eight.models.UserRegRequest
 import com.example.my_app_eight.models.api.RetrofitInstance
+import com.example.my_app_eight.util.PasswordData
 import com.example.my_app_eight.view_models.reg_view_model.CreatePasswordViewModel
 import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
 import com.example.my_app_eight.view_models.reg_view_model.UserRegViewModel
+import kotlinx.android.synthetic.main.fragment_create_password.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -38,9 +43,42 @@ class CreatePasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         toRegUserPage()
-        validatePassword()
         creationPassword()
+        checkPassword()
     }
+
+    private fun checkPassword() {
+        val firstInputPassword = binding.firstInputPassword
+        val secondInputPassword = binding.secondInputPassword
+
+        firstInputPassword.addTextChangedListener(passwordTextWatcher)
+        secondInputPassword.addTextChangedListener(passwordTextWatcher)
+    }
+
+    private val passwordTextWatcher = object : TextWatcher {
+        override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+        }
+
+        override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+        }
+
+        override fun afterTextChanged(s: Editable?) {
+            val password1 = firstInputPassword.text.toString()
+            val password2 = secondInputPassword.text.toString()
+
+            if (password1 == password2) {
+                validatePassword()
+                firstInputPassword.setTextColor(Color.BLACK)
+                secondInputPassword.setTextColor(Color.BLACK)
+                passwordsMismatchText.visibility = View.GONE
+            } else {
+                firstInputPassword.setTextColor(Color.RED)
+                secondInputPassword.setTextColor(Color.RED)
+                passwordsMismatchText.visibility = View.VISIBLE
+            }
+        }
+    }
+
 
     private fun creationPassword() {
         binding.btnFinishReg.setOnClickListener {
