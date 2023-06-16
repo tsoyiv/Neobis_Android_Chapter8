@@ -51,14 +51,15 @@ class LoginFragment : Fragment() {
                 findNavController().navigate(R.id.action_loginFragment_to_profileMenuFragment2)
             } else {
                 checkCorrectness()
+                callSnackBarAndNavigate()
                 Toast.makeText(requireContext(), "Incorrect Username or Password", Toast.LENGTH_SHORT).show()
             }
         }
         binding.btnLogin.setOnClickListener {
-            val firstName = binding.inputFirstName.text.toString()
+            val username = binding.inputUsername.text.toString()
             val password = binding.inputLoginPassword.text.toString()
 
-            viewModel.login(firstName, password)
+            viewModel.login(username, password)
         }
     }
 
@@ -75,7 +76,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun checkOccupancy() {
-        binding.inputFirstName.addTextChangedListener { text ->
+        binding.inputUsername.addTextChangedListener { text ->
             viewModel.onUsernameTextChanged(text)
         }
         binding.inputLoginPassword.addTextChangedListener { text ->
@@ -114,8 +115,8 @@ class LoginFragment : Fragment() {
 
     private fun checkCorrectness() {
         viewModel.isUsernameValid.observe(viewLifecycleOwner) { isValid ->
-            val inputLayout = binding.textInputFragmentFirstName
-            val editText = binding.inputFirstName
+            val inputLayout = binding.textInputFragmentUsername
+            val editText = binding.inputUsername
 
             if (isValid) {
                 inputLayout.boxStrokeColor = ContextCompat.getColor(requireContext(), R.color.inputBlack)

@@ -75,6 +75,9 @@
         <action
             android:id="@+id/action_profileNumbFragment_to_profileCodeFragment"
             app:destination="@id/profileCodeFragment" />
+        <action
+            android:id="@+id/action_profileNumbFragment_to_profileEditFragment2"
+            app:destination="@id/profileEditFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileCodeFragment"

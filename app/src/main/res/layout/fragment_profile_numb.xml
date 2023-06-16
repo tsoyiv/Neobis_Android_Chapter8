@@ -50,8 +50,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
-
-
     <EditText
         android:id="@+id/edit_number"
         android:layout_width="wrap_content"
@@ -62,7 +60,8 @@
         android:textStyle="bold"
         android:textColor="#000000"
         android:textSize="28sp"
-        android:hint="+996 (000) 00 00 00"
+        android:hint="+996(000)000000"
+        android:gravity="center"
         android:textColorHint="#C0C0C0"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
         app:layout_constraintStart_toStartOf="parent"
@@ -71,6 +70,17 @@
         android:paddingEnd="8dp"
         android:text="+996 (000) 00 00 00"
         />
+
+    <TextView
+        android:id="@+id/passwordsMismatchText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Данный номер уже зарегистрирован"
+        android:textColor="@color/red"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/edit_number" />
 
     <Button
         android:id="@+id/btn_getCodePage"

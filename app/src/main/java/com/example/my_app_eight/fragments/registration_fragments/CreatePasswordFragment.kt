@@ -4,6 +4,7 @@ import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.text.method.PasswordTransformationMethod
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -17,10 +18,8 @@ import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentCreatePasswordBinding
 import com.example.my_app_eight.models.UserRegRequest
 import com.example.my_app_eight.models.api.RetrofitInstance
-import com.example.my_app_eight.util.PasswordData
 import com.example.my_app_eight.view_models.reg_view_model.CreatePasswordViewModel
 import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
-import com.example.my_app_eight.view_models.reg_view_model.UserRegViewModel
 import kotlinx.android.synthetic.main.fragment_create_password.*
 import retrofit2.Call
 import retrofit2.Callback
@@ -31,6 +30,7 @@ class CreatePasswordFragment : Fragment() {
     private lateinit var binding: FragmentCreatePasswordBinding
     val viewModel : CreatePasswordViewModel by viewModels()
     val viewModelHolder : HolderViewModel by activityViewModels()
+    private var isPasswordVisible = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,6 +45,26 @@ class CreatePasswordFragment : Fragment() {
         toRegUserPage()
         creationPassword()
         checkPassword()
+        passwordVisibility()
+    }
+
+    private fun passwordVisibility() {
+        val firstInputPassword = binding.firstInputPassword
+        val secondInputPassword = binding.secondInputPassword
+        val passwordVisibilityButton = binding.passwordVisibilityButton
+        passwordVisibilityButton.setOnClickListener {
+            isPasswordVisible = !isPasswordVisible
+            updatePasswordVisibility()
+        }
+    }
+    private fun updatePasswordVisibility() {
+        val passwordTransformation = if (isPasswordVisible) {
+            null // Show the password as plain text
+        } else {
+            PasswordTransformationMethod.getInstance() // Show the password as dots
+        }
+        firstInputPassword.transformationMethod = passwordTransformation
+        secondInputPassword.transformationMethod = passwordTransformation
     }
 
     private fun checkPassword() {
@@ -79,7 +99,6 @@ class CreatePasswordFragment : Fragment() {
         }
     }
 
-
     private fun creationPassword() {
         binding.btnFinishReg.setOnClickListener {
             val password1 = binding.firstInputPassword.text.toString()
@@ -96,7 +115,7 @@ class CreatePasswordFragment : Fragment() {
     private fun registerUser() {
         val api = RetrofitInstance.api
         val requestBody = UserRegRequest(
-            first_name = viewModelHolder.first_name ?: "",
+            username = viewModelHolder.username ?: "",
             email = viewModelHolder.email ?: "",
             password = viewModelHolder.password ?: "",
             confirm_password = viewModelHolder.password ?: ""

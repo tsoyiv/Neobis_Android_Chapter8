@@ -33,6 +33,7 @@ class CreatePasswordViewModel : ViewModel() {
         val isPasswordsValid = isPasswordsMatching(password, confirmPassword)
                 && isPasswordLengthValid(password)
                 && isPasswordContainingNumber(password)
+                && isPasswordContainingUpperCase(password)
 
         _isButtonEnabled.value = isPasswordsValid
     }
@@ -47,5 +48,9 @@ class CreatePasswordViewModel : ViewModel() {
 
     private fun isPasswordContainingNumber(password: String?): Boolean {
         return password?.contains(Regex(".*\\d.*")) ?: false
+    }
+
+    private fun isPasswordContainingUpperCase(password: String?): Boolean {
+        return password?.contains(Regex(".*[A-Z].*")) ?: false
     }
 }

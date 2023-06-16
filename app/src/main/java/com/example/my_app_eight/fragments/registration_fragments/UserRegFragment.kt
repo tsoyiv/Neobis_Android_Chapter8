@@ -38,7 +38,7 @@ class UserRegFragment : Fragment() {
 
     private fun fillUserInfo() {
         binding.btnRegToPasswordPage.setOnClickListener {
-            viewModelHolder.first_name = binding.regInputUsername.text.toString()
+            viewModelHolder.username = binding.regInputUsername.text.toString()
             viewModelHolder.email = binding.regInputEmail.text.toString()
 
             findNavController().navigate(R.id.action_userRegFragment_to_createPasswordFragment)
