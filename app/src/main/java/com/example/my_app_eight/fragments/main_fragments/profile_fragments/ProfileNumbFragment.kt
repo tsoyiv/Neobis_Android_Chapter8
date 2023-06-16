@@ -8,6 +8,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
+import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,7 +22,7 @@ class ProfileNumbFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileNumbBinding
     val viewModel: NumbViewModel by viewModels()
-    val viewModelHolder : ProfileDataViewModel by activityViewModels()
+    val viewModelHolder: ProfileDataViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,6 +39,18 @@ class ProfileNumbFragment : Fragment() {
         toGetCode()
         returnToUserInfo()
         saveNumber()
+        checkOccupancy()
+    }
+
+    private fun checkOccupancy() {
+        binding.editNumber.addTextChangedListener { text ->
+            viewModel.onPasswordTextChanged(text)
+        }
+        viewModel.isButtonEnabled.observe(viewLifecycleOwner) { isEnabled ->
+            val button = binding.btnGetCodePage
+            button.isEnabled = isEnabled
+            button.setBackgroundResource(if (isEnabled) R.drawable.btn_active else R.drawable.btn_not_active)
+        }
     }
 
     private fun saveNumber() {
@@ -47,6 +61,7 @@ class ProfileNumbFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModelHolder.number = s?.toString() ?: ""
             }
+
             override fun afterTextChanged(s: Editable?) {}
         })
     }

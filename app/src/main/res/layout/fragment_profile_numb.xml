@@ -87,10 +87,11 @@
         android:layout_width="335dp"
         android:layout_height="45dp"
         android:layout_marginTop="93dp"
-        android:background="@drawable/btn_active"
+        android:background="@drawable/btn_not_active"
         android:text="Далее"
         android:textColor="#FFFFFF"
         app:backgroundTint="@null"
+        android:enabled="false"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edit_number" />

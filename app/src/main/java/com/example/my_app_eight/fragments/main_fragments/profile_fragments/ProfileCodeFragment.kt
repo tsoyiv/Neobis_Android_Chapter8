@@ -1,6 +1,7 @@
 package com.example.my_app_eight.fragments.main_fragments.profile_fragments
 
 import android.os.Bundle
+import android.os.CountDownTimer
 import android.text.Editable
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
@@ -16,6 +17,8 @@ import com.example.my_app_eight.databinding.FragmentProfileCodeBinding
 class ProfileCodeFragment : Fragment() {
 
     private lateinit var binding : FragmentProfileCodeBinding
+    private lateinit var countDownTimer: CountDownTimer
+    private var isTimerRunning = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +33,52 @@ class ProfileCodeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         //code()
         returnToNumbPage()
+        timerLogic()
+    }
+
+    private fun timerLogic() {
+        binding.textViewInfo.text = "Повторный запрос"
+        binding.textViewRetryRequest.visibility = View.VISIBLE
+
+        binding.textViewInfo.setOnClickListener {
+            // TODO Handle click event here
+        }
+
+        binding.textViewRetryRequest.setOnClickListener {
+            if (!isTimerRunning) {
+                startTimer(5000)
+                binding.textViewRetryRequest.visibility = View.GONE
+                binding.textViewInfo.visibility = View.VISIBLE
+                binding.timerTextView.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun startTimer(duration: Long) {
+        isTimerRunning = true
+
+        countDownTimer = object : CountDownTimer(duration, 1000) {
+            override fun onTick(millisUntilFinished: Long) {
+                val seconds = millisUntilFinished / 1000
+                val minutes = seconds / 60
+                val remainingSeconds = seconds % 60
+
+                binding.timerTextView.text = String.format("%d:%02d", minutes, remainingSeconds)
+            }
+
+            override fun onFinish() {
+                isTimerRunning = false
+                binding.textViewInfo.visibility = View.GONE
+                binding.timerTextView.visibility = View.GONE
+                binding.textViewRetryRequest.visibility = View.VISIBLE
+            }
+        }
+
+        countDownTimer.start()
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        countDownTimer.cancel()
     }
 
     private fun returnToNumbPage() {
