@@ -9,6 +9,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentUserRegBinding
 import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
@@ -30,6 +31,7 @@ class UserRegFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        (requireActivity() as HomeActivity).hide()
         returnToLoginPage()
         toCreatePassword()
         checkOccupancy()

@@ -16,6 +16,9 @@
         <action
             android:id="@+id/action_loginFragment_to_profileMenuFragment2"
             app:destination="@id/profileMenuFragment2" />
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/userRegFragment"

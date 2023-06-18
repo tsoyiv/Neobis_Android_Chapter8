@@ -13,12 +13,17 @@ import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
+import com.example.my_app_eight.ScreenActivity
 import com.example.my_app_eight.databinding.FragmentLoginBinding
 import com.example.my_app_eight.models.LoginRequest
 import com.example.my_app_eight.models.LoginResponse
 import com.example.my_app_eight.models.api.RetrofitInstance
 import com.example.my_app_eight.view_models.login_view_model.LoginViewModel
+import com.google.android.material.bottomappbar.BottomAppBar
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -39,9 +44,13 @@ class LoginFragment : Fragment() {
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        (requireActivity() as HomeActivity).hide()
+
         checkOccupancy()
         toRegNewUser()
         loginCheck()
+        //testToProfilePage()
     }
 
     private fun loginCheck() {
@@ -65,7 +74,7 @@ class LoginFragment : Fragment() {
 
     private fun testToProfilePage() {
         binding.btnLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_profileMenuFragment2)
+            findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
         }
     }
 
