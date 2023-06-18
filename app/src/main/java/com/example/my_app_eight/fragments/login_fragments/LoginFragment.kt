@@ -3,7 +3,6 @@ package com.example.my_app_eight.fragments.login_fragments
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,24 +10,14 @@ import android.widget.FrameLayout
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
-import com.example.my_app_eight.ScreenActivity
 import com.example.my_app_eight.databinding.FragmentLoginBinding
-import com.example.my_app_eight.models.LoginRequest
-import com.example.my_app_eight.models.LoginResponse
-import com.example.my_app_eight.models.api.RetrofitInstance
 import com.example.my_app_eight.view_models.login_view_model.LoginViewModel
-import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
 class LoginFragment : Fragment() {
 
@@ -39,9 +28,10 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding =  FragmentLoginBinding.inflate(inflater, container, false)
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -61,7 +51,11 @@ class LoginFragment : Fragment() {
             } else {
                 checkCorrectness()
                 callSnackBarAndNavigate()
-                Toast.makeText(requireContext(), "Incorrect Username or Password", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Incorrect Username or Password",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
         binding.btnLogin.setOnClickListener {
@@ -128,7 +122,8 @@ class LoginFragment : Fragment() {
             val editText = binding.inputUsername
 
             if (isValid) {
-                inputLayout.boxStrokeColor = ContextCompat.getColor(requireContext(), R.color.inputBlack)
+                inputLayout.boxStrokeColor =
+                    ContextCompat.getColor(requireContext(), R.color.inputBlack)
                 editText.setTextColor(ContextCompat.getColor(requireContext(), R.color.inputBlack))
             } else {
                 inputLayout.boxStrokeColor = ContextCompat.getColor(requireContext(), R.color.red)
@@ -140,7 +135,8 @@ class LoginFragment : Fragment() {
             val editText = binding.inputLoginPassword
 
             if (isValid) {
-                inputLayout.boxStrokeColor = ContextCompat.getColor(requireContext(), R.color.inputBlack)
+                inputLayout.boxStrokeColor =
+                    ContextCompat.getColor(requireContext(), R.color.inputBlack)
                 editText.setTextColor(ContextCompat.getColor(requireContext(), R.color.inputBlack))
             } else {
                 inputLayout.boxStrokeColor = ContextCompat.getColor(requireContext(), R.color.red)
