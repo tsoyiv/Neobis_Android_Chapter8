@@ -26,7 +26,7 @@ class RetrofitInstance {
         }
 
         val api by lazy {
-            retrofit.create(UserAPI::class.java)
+            retrofit.create(RegistrationAPI::class.java)
         }
     }
 }

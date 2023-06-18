@@ -54,6 +54,12 @@
         <action
             android:id="@+id/action_profileMenuFragment2_to_profileEditFragment"
             app:destination="@id/profileEditFragment" />
+        <action
+            android:id="@+id/action_profileMenuFragment2_to_favoriteItemsFragment"
+            app:destination="@id/favoriteItemsFragment" />
+        <action
+            android:id="@+id/action_profileMenuFragment2_to_userItemsFragment"
+            app:destination="@id/userItemsFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileEditFragment"
@@ -93,6 +99,24 @@
         <action
             android:id="@+id/action_profileCodeFragment_to_profileNumbFragment"
             app:destination="@id/profileNumbFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/favoriteItemsFragment"
+        android:name="com.example.my_app_eight.fragments.main_fragments.profile_fragments.user_menu_fragments.FavoriteItemsFragment"
+        android:label="fragment_favorite_items"
+        tools:layout="@layout/fragment_favorite_items" >
+        <action
+            android:id="@+id/action_favoriteItemsFragment_to_profileMenuFragment2"
+            app:destination="@id/profileMenuFragment2" />
+    </fragment>
+    <fragment
+        android:id="@+id/userItemsFragment"
+        android:name="com.example.my_app_eight.fragments.main_fragments.profile_fragments.user_menu_fragments.UserItemsFragment"
+        android:label="fragment_user_items"
+        tools:layout="@layout/fragment_user_items" >
+        <action
+            android:id="@+id/action_userItemsFragment_to_profileMenuFragment2"
+            app:destination="@id/profileMenuFragment2" />
     </fragment>
     <!--    <activity-->
 <!--        android:name="com.example.my_app_eight.HomeActivity"-->

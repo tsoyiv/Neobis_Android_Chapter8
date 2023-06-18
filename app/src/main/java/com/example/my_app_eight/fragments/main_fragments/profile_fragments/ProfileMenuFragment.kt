@@ -35,7 +35,28 @@ class ProfileMenuFragment : Fragment() {
         (requireActivity() as HomeActivity).showBtm()
         toEditPage()
         logOut()
+        toLikedPage()
+        toUserItem()
     }
+
+    private fun toUserItem() {
+        val clickListener = View.OnClickListener {
+            findNavController().navigate(R.id.action_profileMenuFragment2_to_userItemsFragment)
+        }
+        binding.imgUserItems.setOnClickListener(clickListener)
+        binding.btnTxtMyItems.setOnClickListener(clickListener)
+        binding.btnArrowMyItems.setOnClickListener(clickListener)
+    }
+
+    private fun toLikedPage() {
+        val clickListener = View.OnClickListener {
+            findNavController().navigate(R.id.action_profileMenuFragment2_to_favoriteItemsFragment)
+        }
+        binding.imgLiked.setOnClickListener(clickListener)
+        binding.btnTxtLikedItems.setOnClickListener(clickListener)
+        binding.btnArrowLikedItems.setOnClickListener(clickListener)
+    }
+
     private fun logOut() {
         val clickListener = View.OnClickListener {
             callDialog()
