@@ -6,8 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentFavoriteItemsBinding
+import com.example.my_app_eight.models.ItemAdapter
 
 class FavoriteItemsFragment : Fragment() {
 
@@ -24,8 +26,15 @@ class FavoriteItemsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        setupRV()
         returnToUserMenu()
+    }
+    private fun setupRV() {
+        val adapter = ItemAdapter()
+        val recyclerView = binding.recyclerview
+        recyclerView.adapter = adapter
+        recyclerView.setHasFixedSize(true)
+        recyclerView?.layoutManager = GridLayoutManager(requireContext(), 2)
     }
 
     private fun returnToUserMenu() {
