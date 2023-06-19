@@ -2,6 +2,7 @@ package com.example.my_app_eight.fragments.main_fragments.profile_fragments
 
 import android.os.Bundle
 import android.text.Editable
+import android.text.InputFilter
 import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -15,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileNumbBinding
+import com.example.my_app_eight.util.PhoneNumberMaskWatcher
 import com.example.my_app_eight.view_models.profile_view_models.NumbViewModel
 import com.example.my_app_eight.view_models.profile_view_models.ProfileDataViewModel
 
@@ -35,7 +37,11 @@ class ProfileNumbFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        logicForWritingNumber()
+        //logicForWritingNumber()
+        val editText = view.findViewById<EditText>(R.id.edit_number)
+        val phoneNumberMaskWatcher = PhoneNumberMaskWatcher(editText)
+        editText.filters = arrayOf(InputFilter.LengthFilter(15))
+        editText.addTextChangedListener(phoneNumberMaskWatcher)
         toGetCode()
         returnToUserInfo()
         saveNumber()

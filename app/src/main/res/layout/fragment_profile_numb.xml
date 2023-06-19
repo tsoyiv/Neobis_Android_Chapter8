@@ -60,7 +60,7 @@
         android:textStyle="bold"
         android:textColor="#000000"
         android:textSize="28sp"
-        android:hint="+996(000)000000"
+        android:hint="0 (000) 000 000"
         android:gravity="center"
         android:textColorHint="#C0C0C0"
         app:layout_constraintTop_toBottomOf="@+id/textView4"
@@ -68,7 +68,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:paddingStart="8dp"
         android:paddingEnd="8dp"
-        android:text="+996 (000) 00 00 00"
         />
 
     <TextView
