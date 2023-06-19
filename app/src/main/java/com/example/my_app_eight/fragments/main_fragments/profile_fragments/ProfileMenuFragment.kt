@@ -4,24 +4,22 @@ import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
-import com.example.my_app_eight.ScreenActivity
 import com.example.my_app_eight.databinding.FragmentProfileMenuBinding
-import com.google.android.material.bottomappbar.BottomAppBar
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
 import kotlinx.android.synthetic.main.custom_dialog_logout.view.*
 
 class ProfileMenuFragment : Fragment() {
 
     private lateinit var binding : FragmentProfileMenuBinding
+    val hViewModel : HolderViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,6 +31,7 @@ class ProfileMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as HomeActivity).showBtm()
+        binding.userInitialName.text = hViewModel.username
         toEditPage()
         logOut()
         toLikedPage()

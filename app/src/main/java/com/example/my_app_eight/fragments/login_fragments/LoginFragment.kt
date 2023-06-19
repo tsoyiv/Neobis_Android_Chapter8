@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.HomeActivity
@@ -21,6 +22,7 @@ import com.example.my_app_eight.models.LoginResponse
 import com.example.my_app_eight.models.api.AuthAPI
 import com.example.my_app_eight.models.api.RetrofitInstance
 import com.example.my_app_eight.view_models.login_view_model.LoginViewModel
+import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -33,6 +35,7 @@ class LoginFragment : Fragment() {
     private lateinit var binding: FragmentLoginBinding
     val viewModel: LoginViewModel by viewModels()
     private val userAPI: AuthAPI = RetrofitInstance.api
+    val hViewModel : HolderViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,6 +67,7 @@ class LoginFragment : Fragment() {
                         userAPI.login(request)
                     }
                     if (response.isSuccessful) {
+                        hViewModel.username = username
                         Toast.makeText(requireContext(), "You are IN", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_loginFragment_to_profileMenuFragment2)
                     } else {
