@@ -38,24 +38,14 @@ class ProfileCodeFragment : Fragment() {
 
     private fun timerLogic() {
         binding.textViewInfo.text = "Повторный запрос"
-        binding.textViewRetryRequest.visibility = View.VISIBLE
+        binding.textViewRetryRequest.visibility = View.GONE
 
-        binding.textViewInfo.setOnClickListener {
-            // TODO Handle click event here
-        }
-
-        binding.textViewRetryRequest.setOnClickListener {
-            if (!isTimerRunning) {
-                startTimer(5000)
-                binding.textViewRetryRequest.visibility = View.GONE
-                binding.textViewInfo.visibility = View.VISIBLE
-                binding.timerTextView.visibility = View.VISIBLE
-            }
-        }
+        startTimer(5000)
+        //TODO change the duration of timer
     }
 
     private fun startTimer(duration: Long) {
-        isTimerRunning = true
+        var isTimerRunning = false
 
         countDownTimer = object : CountDownTimer(duration, 1000) {
             override fun onTick(millisUntilFinished: Long) {
@@ -74,11 +64,15 @@ class ProfileCodeFragment : Fragment() {
             }
         }
 
+        binding.textViewRetryRequest.setOnClickListener {
+            if (!isTimerRunning) {
+                startTimer(5000)
+                binding.textViewRetryRequest.visibility = View.GONE
+                binding.textViewInfo.visibility = View.VISIBLE
+                binding.timerTextView.visibility = View.VISIBLE
+            }
+        }
         countDownTimer.start()
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
-        countDownTimer.cancel()
     }
 
     private fun returnToNumbPage() {
@@ -86,28 +80,4 @@ class ProfileCodeFragment : Fragment() {
             findNavController().navigate(R.id.action_profileCodeFragment_to_profileNumbFragment)
         }
     }
-
-//    private fun code() {
-//        val inputCode = binding.inputCode
-//        inputCode.addTextChangedListener(object : TextWatcher {
-//            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-//                // Not used in this case
-//            }
-//            override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-//                // Not used in this case
-//            }
-//            override fun afterTextChanged(s: Editable) {
-//                val code = s.toString()
-//                val formattedCodeBuilder = StringBuilder("0 0 0 0")
-//                val formattedCode = MutableLiveData("0 0 0 0")
-//
-//                for (i in code.indices) {
-//                    if (i < formattedCodeBuilder.length && Character.isDigit(code[i])) {
-//                        formattedCodeBuilder.setCharAt(i * 2, code[i])
-//                    }
-//                }
-//                formattedCode.value = formattedCodeBuilder.toString()
-//            }
-//        })
-//    }
 }
