@@ -18,7 +18,6 @@ class ProfileCodeFragment : Fragment() {
 
     private lateinit var binding : FragmentProfileCodeBinding
     private lateinit var countDownTimer: CountDownTimer
-    private var isTimerRunning = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

@@ -4,13 +4,14 @@ import com.example.my_app_eight.models.LoginRequest
 import com.example.my_app_eight.models.LoginResponse
 import com.example.my_app_eight.models.UserRegRequest
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.POST
 
-interface RegistrationAPI {
+interface AuthAPI {
 
     @POST("login/")
-    suspend fun login(@Body request: LoginRequest): LoginResponse
+    suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
     @POST("register/")
     fun registerUser(@Body request: UserRegRequest): Call<Unit>

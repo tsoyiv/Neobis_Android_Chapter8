@@ -16,13 +16,23 @@ import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentLoginBinding
+import com.example.my_app_eight.models.LoginRequest
+import com.example.my_app_eight.models.LoginResponse
+import com.example.my_app_eight.models.api.AuthAPI
+import com.example.my_app_eight.models.api.RetrofitInstance
 import com.example.my_app_eight.view_models.login_view_model.LoginViewModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import retrofit2.Response
 
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     val viewModel: LoginViewModel by viewModels()
+    private val userAPI: AuthAPI = RetrofitInstance.api
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -34,35 +44,37 @@ class LoginFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         (requireActivity() as HomeActivity).hide()
 
         checkOccupancy()
         toRegNewUser()
-        loginCheck()
-        //testToProfilePage()
+        login()
     }
 
-    private fun loginCheck() {
-        viewModel.loginResponse.observe(viewLifecycleOwner) { loginResponse ->
-            if (loginResponse != null) {
-                Toast.makeText(requireContext(), "You are IN", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_loginFragment_to_profileMenuFragment2)
-            } else {
-                checkCorrectness()
-                callSnackBarAndNavigate()
-                Toast.makeText(
-                    requireContext(),
-                    "Incorrect Username or Password",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        }
+    private fun login() {
         binding.btnLogin.setOnClickListener {
             val username = binding.inputUsername.text.toString()
             val password = binding.inputLoginPassword.text.toString()
 
-            viewModel.login(username, password)
+            val request = LoginRequest(username, password)
+
+            GlobalScope.launch(Dispatchers.Main) {
+                try {
+                    val response: Response<LoginResponse> = withContext(Dispatchers.IO) {
+                        userAPI.login(request)
+                    }
+                    if (response.isSuccessful) {
+                        Toast.makeText(requireContext(), "You are IN", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_loginFragment_to_profileMenuFragment2)
+                    } else {
+                        Toast.makeText(requireContext(), "Incorrect Password", Toast.LENGTH_SHORT)
+                            .show()
+                        callSnackBarAndNavigate()
+                    }
+                } catch (t: Throwable) {
+                    Toast.makeText(requireContext(), "Повторите попытку", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
     }
 
