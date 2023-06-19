@@ -9,11 +9,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileMenuBinding
 import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
+import com.google.android.material.floatingactionbutton.FloatingActionButton
+import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.custom_dialog_logout.view.*
 
 class ProfileMenuFragment : Fragment() {
@@ -36,6 +39,13 @@ class ProfileMenuFragment : Fragment() {
         logOut()
         toLikedPage()
         toUserItem()
+        addPage()
+    }
+
+    private fun addPage() {
+        binding.addPAge.setOnClickListener {
+            findNavController().navigate(R.id.action_profileMenuFragment2_to_addItemFragment)
+        }
     }
 
     private fun toUserItem() {

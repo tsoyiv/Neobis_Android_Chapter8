@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#F7F6F9"
+    tools:context=".fragments.main_fragments.add_item_fragment.AddItemFragment">
+
+    <ImageView
+        android:id="@+id/btn_ready_addItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="20dp"
+        android:src="@drawable/btn_save"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/btn_cancel_addItem"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/stop_btn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/add_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/addimg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_cancel_addItem" />
+
+    <EditText
+        android:id="@+id/editText_price"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edit_text_rounded_background"
+        android:padding="8dp"
+        android:hint="Цена"
+        android:textColor="#494949"
+        android:textColorHint="#C0C0C0"
+        android:inputType="numberDecimal"
+        android:drawablePadding="8dp"
+        android:drawableStart="@drawable/edit_text_underline"
+        app:layout_constraintTop_toBottomOf="@+id/add_img" />
+
+    <EditText
+        android:id="@+id/editText_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edit_text_rounded_background"
+        android:padding="8dp"
+        android:hint="Название"
+        android:textColor="#494949"
+        android:textColorHint="#C0C0C0"
+        android:inputType="textMultiLine"
+        android:drawablePadding="8dp"
+        android:drawableStart="@drawable/edit_text_underline"
+        app:layout_constraintTop_toBottomOf="@+id/editText_price" />
+
+    <EditText
+        android:id="@+id/editText_shortD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edit_text_rounded_background"
+        android:padding="8dp"
+        android:textColor="#494949"
+        android:hint="Краткое описание"
+        android:textColorHint="#C0C0C0"
+        android:inputType="textMultiLine"
+        android:drawablePadding="8dp"
+        android:drawableStart="@drawable/edit_text_underline"
+        app:layout_constraintTop_toBottomOf="@+id/editText_name" />
+
+    <EditText
+        android:id="@+id/editText_longD"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/edit_text_rounded_background"
+        android:padding="8dp"
+        android:textColor="#494949"
+        android:hint="Детальное описание"
+        android:textColorHint="#C0C0C0"
+        android:inputType="textMultiLine"
+        android:drawablePadding="8dp"
+        android:drawableStart="@drawable/edit_text_underline"
+        app:layout_constraintTop_toBottomOf="@+id/editText_shortD" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

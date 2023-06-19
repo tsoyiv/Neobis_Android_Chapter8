@@ -60,6 +60,9 @@
         <action
             android:id="@+id/action_profileMenuFragment2_to_userItemsFragment"
             app:destination="@id/userItemsFragment" />
+        <action
+            android:id="@+id/action_profileMenuFragment2_to_addItemFragment"
+            app:destination="@id/addItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileEditFragment"
@@ -118,6 +121,11 @@
             android:id="@+id/action_userItemsFragment_to_profileMenuFragment2"
             app:destination="@id/profileMenuFragment2" />
     </fragment>
+    <fragment
+        android:id="@+id/addItemFragment"
+        android:name="com.example.my_app_eight.fragments.main_fragments.add_item_fragment.AddItemFragment"
+        android:label="fragment_add_item"
+        tools:layout="@layout/fragment_add_item" />
     <!--    <activity-->
 <!--        android:name="com.example.my_app_eight.HomeActivity"-->
 <!--        app:startDestination="@id/mainFragment" />-->
