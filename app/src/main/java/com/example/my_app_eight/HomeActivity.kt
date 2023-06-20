@@ -18,6 +18,11 @@ class HomeActivity : AppCompatActivity() {
         val navController = navHostFragment.navController
         findViewById<BottomNavigationView>(R.id.btn_nav_view)
             .setupWithNavController(navController)
+
+        val floatingActionButton = findViewById<FloatingActionButton>(R.id.btn_floating_menu)
+        floatingActionButton.setOnClickListener {
+            navController.navigate(R.id.addItemFragment)
+        }
     }
 
     fun hide() {

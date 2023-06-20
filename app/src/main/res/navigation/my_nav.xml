@@ -125,7 +125,14 @@
         android:id="@+id/addItemFragment"
         android:name="com.example.my_app_eight.fragments.main_fragments.add_item_fragment.AddItemFragment"
         android:label="fragment_add_item"
-        tools:layout="@layout/fragment_add_item" />
+        tools:layout="@layout/fragment_add_item" >
+        <action
+            android:id="@+id/action_addItemFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_addItemFragment_to_mainFragment2"
+            app:destination="@id/mainFragment" />
+    </fragment>
     <!--    <activity-->
 <!--        android:name="com.example.my_app_eight.HomeActivity"-->
 <!--        app:startDestination="@id/mainFragment" />-->

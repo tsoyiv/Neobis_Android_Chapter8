@@ -8,9 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentMainBinding
+import com.example.my_app_eight.models.ItemAdapter
 import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment() {
@@ -28,6 +30,15 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as HomeActivity).showBtm()
         super.onViewCreated(view, savedInstanceState)
+        setupRV()
+    }
+
+    private fun setupRV() {
+        val adapter = ItemAdapter()
+        val recyclerView = binding.recyclerview
+        recyclerView.adapter = adapter
+        recyclerView.setHasFixedSize(true)
+        recyclerView?.layoutManager = GridLayoutManager(requireContext(), 2)
     }
 
     private fun callSnackBarAndNavigate() {

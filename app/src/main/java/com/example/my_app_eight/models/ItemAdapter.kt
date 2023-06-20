@@ -5,8 +5,10 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.my_app_eight.R
+import kotlinx.android.synthetic.main.custom_item.view.*
 
 class ItemAdapter : RecyclerView.Adapter<ItemAdapter.MyViewHolder>() {
+    //(private val listener: RecyclerView)
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {}
 
@@ -23,6 +25,10 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.MyViewHolder>() {
 //        holder.itemView.name_of_item.text = currentItem.name
 //        holder.itemView.price_of_item.text = currentItem.price
 //        holder.itemView.amount_liked.text = currentItem.distributor
+
+        holder.itemView.three_dots_btn.setOnClickListener {
+            //TODO add listener
+        }
     }
 
     override fun getItemCount(): Int {

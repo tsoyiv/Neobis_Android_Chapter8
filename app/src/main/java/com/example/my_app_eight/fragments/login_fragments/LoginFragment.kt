@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -69,20 +70,12 @@ class LoginFragment : Fragment() {
                         Toast.makeText(requireContext(), "You are IN", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
                     } else {
-                        Toast.makeText(requireContext(), "Incorrect Password", Toast.LENGTH_SHORT)
-                            .show()
                         callSnackBarAndNavigate()
                     }
                 } catch (t: Throwable) {
                     Toast.makeText(requireContext(), "Повторите попытку", Toast.LENGTH_SHORT).show()
                 }
             }
-        }
-    }
-
-    private fun testToProfilePage() {
-        binding.btnLogin.setOnClickListener {
-            findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
         }
     }
 
@@ -113,21 +106,21 @@ class LoginFragment : Fragment() {
 
         val snackbarView = snackbar.view
         snackbarView.setBackgroundColor(Color.TRANSPARENT)
+
+        val layoutParams = snackbarView.layoutParams as CoordinatorLayout.LayoutParams
+        layoutParams.gravity = Gravity.TOP
+        snackbarView.layoutParams = layoutParams
+
         val snackbarLayout = FrameLayout(requireContext())
-        val layoutParams = FrameLayout.LayoutParams(
+        val frameLayoutParams = FrameLayout.LayoutParams(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT
         )
-        layoutParams.gravity = Gravity.TOP or Gravity.CENTER_HORIZONTAL
-        snackbarLayout.layoutParams = layoutParams
+        snackbarLayout.layoutParams = frameLayoutParams
 
         snackbarLayout.addView(customSnackbarLayout)
         (snackbarView as Snackbar.SnackbarLayout).addView(snackbarLayout, 0)
         snackbar.show()
-
-//        view?.postDelayed({
-//            findNavController().navigate(R.id.action_secondResetPasswordFragment_to_loginFragment)
-//        }, 2000)
     }
 
     private fun checkCorrectness() {

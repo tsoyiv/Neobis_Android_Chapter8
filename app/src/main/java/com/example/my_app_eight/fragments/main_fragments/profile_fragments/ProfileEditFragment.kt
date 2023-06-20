@@ -25,6 +25,8 @@ class ProfileEditFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileEditBinding
     val viewModelHolder: ProfileDataViewModel by activityViewModels()
+    private val PICK_IMAGE_REQUEST = 1
+    private lateinit var profileImageView: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -38,9 +40,36 @@ class ProfileEditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         toAddNumber()
+        callGallery()
         saveDataInFields()
         pickDate()
         returnToProfileInfo()
+    }
+
+    private fun callGallery() {
+        val txt_img_req = binding.chooseImg
+        txt_img_req.setOnClickListener {
+            openGallery()
+        }
+    }
+
+    private fun openGallery() {
+        val intent = Intent()
+        intent.action = Intent.ACTION_GET_CONTENT
+        //val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "image/*"
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        profileImageView = binding.profileImg
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            val selectedImageUri: Uri? = data.data
+            profileImageView.setImageURI(selectedImageUri)
+        }
     }
 
     private fun returnToProfileInfo() {
