@@ -48,7 +48,6 @@ class LoginFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as HomeActivity).hide()
-
         checkOccupancy()
         toRegNewUser()
         login()
@@ -58,7 +57,6 @@ class LoginFragment : Fragment() {
         binding.btnLogin.setOnClickListener {
             val username = binding.inputUsername.text.toString()
             val password = binding.inputLoginPassword.text.toString()
-
             val request = LoginRequest(username, password)
 
             GlobalScope.launch(Dispatchers.Main) {
@@ -69,7 +67,7 @@ class LoginFragment : Fragment() {
                     if (response.isSuccessful) {
                         hViewModel.username = username
                         Toast.makeText(requireContext(), "You are IN", Toast.LENGTH_SHORT).show()
-                        findNavController().navigate(R.id.action_loginFragment_to_profileMenuFragment2)
+                        findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
                     } else {
                         Toast.makeText(requireContext(), "Incorrect Password", Toast.LENGTH_SHORT)
                             .show()

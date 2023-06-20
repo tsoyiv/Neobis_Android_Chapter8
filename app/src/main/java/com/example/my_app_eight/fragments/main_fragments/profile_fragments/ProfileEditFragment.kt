@@ -1,34 +1,37 @@
 package com.example.my_app_eight.fragments.main_fragments.profile_fragments
 
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.window.OnBackInvokedDispatcher
+import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileEditBinding
 import com.example.my_app_eight.view_models.profile_view_models.ProfileDataViewModel
-import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
 import java.util.*
 
 class ProfileEditFragment : Fragment() {
 
-    private lateinit var binding : FragmentProfileEditBinding
-    val viewModelHolder : ProfileDataViewModel by activityViewModels()
+    private lateinit var binding: FragmentProfileEditBinding
+    val viewModelHolder: ProfileDataViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        binding =  FragmentProfileEditBinding.inflate(inflater, container, false)
+        binding = FragmentProfileEditBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -62,6 +65,7 @@ class ProfileEditFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModelHolder.name = s?.toString() ?: ""
             }
+
             override fun afterTextChanged(s: Editable?) {}
         })
 
@@ -70,6 +74,7 @@ class ProfileEditFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModelHolder.surname = s?.toString() ?: ""
             }
+
             override fun afterTextChanged(s: Editable?) {}
         })
 
@@ -78,6 +83,7 @@ class ProfileEditFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModelHolder.nickname = s?.toString() ?: ""
             }
+
             override fun afterTextChanged(s: Editable?) {}
         })
 
@@ -86,14 +92,17 @@ class ProfileEditFragment : Fragment() {
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
                 viewModelHolder.birthday = s?.toString() ?: ""
             }
+
             override fun afterTextChanged(s: Editable?) {}
         })
     }
+
     private fun toAddNumber() {
         binding.addNumber.setOnClickListener {
             findNavController().navigate(R.id.action_profileEditFragment_to_profileNumbFragment)
         }
     }
+
     private fun pickDate() {
         val datePicker = binding.editTextBirthday
         datePicker.setOnClickListener {
