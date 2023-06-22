@@ -3,22 +3,28 @@ package com.example.my_app_eight.fragments.main_fragments.profile_fragments
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileEditBinding
+import com.example.my_app_eight.models.UserInfoRequest
+import com.example.my_app_eight.models.api.RetrofitInstanceEdit
+import com.example.my_app_eight.models.api.UserInfoAPI
 import com.example.my_app_eight.view_models.profile_view_models.ProfileDataViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import retrofit2.HttpException
 import java.util.*
 
 class ProfileEditFragment : Fragment() {
@@ -27,6 +33,7 @@ class ProfileEditFragment : Fragment() {
     val viewModelHolder: ProfileDataViewModel by activityViewModels()
     private val PICK_IMAGE_REQUEST = 1
     private lateinit var profileImageView: ImageView
+    private lateinit var userInfoAPI: UserInfoAPI
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,7 +51,97 @@ class ProfileEditFragment : Fragment() {
         saveDataInFields()
         pickDate()
         returnToProfileInfo()
+        saveEdit()
     }
+
+    private fun saveEdit() {
+        binding.btnReady.setOnClickListener {
+            updateUser()
+        }
+    }
+
+    private fun updateUser() {
+        val accessToken =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg4MDMyOTg2LCJpYXQiOjE2ODc0MjgxODYsImp0aSI6ImQwNTE3NjdmMzdjMDRkYjk5YzJlZTRmM2I1YjZhNDkxIiwidXNlcl9pZCI6N30.aXUsvQ9VTiQWNwR54bbYm78Ln9C02DIPwEwkij5yDM8"
+
+        val userInfo = UserInfoRequest(
+            binding.editTextName.text.toString(),
+            binding.editTextSurname.text.toString(),
+            binding.editTextNickname.text.toString(),
+            binding.editTextBirthday.text.toString()
+        )
+        GlobalScope.launch(Dispatchers.IO) {
+            try {
+                val response =
+                    RetrofitInstanceEdit.api.updateUserInfo("Bearer $accessToken", userInfo)
+                if (response.isSuccessful) {
+                    activity?.runOnUiThread {
+                        Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_profileEditFragment_to_profileMenuFragment22)
+                    }
+                } else {
+                    activity?.runOnUiThread {
+                        Toast.makeText(requireContext(), "The user did not be updated", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } catch (e: HttpException) {
+                // Handle HTTP exception
+            } catch (e: Exception) {
+                // Handle other exceptions
+            }
+        }
+    }
+
+//    private fun editProfile() {
+//        userInfoAPI = RetrofitInstance.api
+//        val userInfo = UserInfoRequest(
+//            binding.editTextName.text.toString(),
+//            binding.editTextSurname.text.toString(),
+//            binding.editTextNickname.text.toString(),
+//            binding.editTextBirthday.text.toString()
+//        )
+//
+//        updateUserInfo(userInfo)
+//    }
+//
+//    private fun updateUserInfo(userInfo: UserInfoRequest) {
+//
+//        val tokenManager = TokenManager(requireContext())
+//        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg4MDMyOTg2LCJpYXQiOjE2ODc0MjgxODYsImp0aSI6ImQwNTE3NjdmMzdjMDRkYjk5YzJlZTRmM2I1YjZhNDkxIiwidXNlcl9pZCI6N30.aXUsvQ9VTiQWNwR54bbYm78Ln9C02DIPwEwkij5yDM8"
+//
+//        if (token != null) {
+//            val call = userInfoAPI.updateUserInfo(userInfo)
+//            call.enqueue(object : Callback<Unit> {
+//                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+//                    if (response.isSuccessful) {
+//                        Toast.makeText(requireContext(), "updated", Toast.LENGTH_SHORT).show()
+//                    } else {
+//                        Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<Unit>, t: Throwable) {
+//                    // Request failed, handle error here
+//                }
+//            })
+//        } else {
+//            Toast.makeText(requireContext(), "did not receive token", Toast.LENGTH_SHORT).show()
+//        }
+
+//        val call = userInfoAPI.updateUserInfo(token, userInfo)
+//        call.enqueue(object : Callback<Unit> {
+//            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
+//                if (response.isSuccessful) {
+//                    Toast.makeText(requireContext(), "updated", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<Unit>, t: Throwable) {
+//                // Request failed, handle error here
+//            }
+//        })
 
     private fun callGallery() {
         val txt_img_req = binding.chooseImg
