@@ -19,8 +19,8 @@ import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileEditBinding
 import com.example.my_app_eight.models.UserInfoRequest
 import com.example.my_app_eight.models.api.RetrofitInstanceEdit
-import com.example.my_app_eight.models.api.UserInfoAPI
 import com.example.my_app_eight.view_models.profile_view_models.ProfileDataViewModel
+import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -31,9 +31,9 @@ class ProfileEditFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileEditBinding
     val viewModelHolder: ProfileDataViewModel by activityViewModels()
+    val hViewModel : HolderViewModel by activityViewModels()
     private val PICK_IMAGE_REQUEST = 1
     private lateinit var profileImageView: ImageView
-    private lateinit var userInfoAPI: UserInfoAPI
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -46,6 +46,7 @@ class ProfileEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        binding.changeEmail.text = hViewModel.email
         toAddNumber()
         callGallery()
         saveDataInFields()
@@ -62,7 +63,7 @@ class ProfileEditFragment : Fragment() {
 
     private fun updateUser() {
         val accessToken =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg4MDMyOTg2LCJpYXQiOjE2ODc0MjgxODYsImp0aSI6ImQwNTE3NjdmMzdjMDRkYjk5YzJlZTRmM2I1YjZhNDkxIiwidXNlcl9pZCI6N30.aXUsvQ9VTiQWNwR54bbYm78Ln9C02DIPwEwkij5yDM8"
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg4Mjg1MzAxLCJpYXQiOjE2ODc2ODA1MDEsImp0aSI6IjExOTBiOWQxMDIzNDQzMjdiNzRmMmIzNGVjODcxNmU0IiwidXNlcl9pZCI6MTB9.J_NCaDxcy8rEp_LI_xyPK0b-fenadCYLlWl6bhfyGe8"
 
         val userInfo = UserInfoRequest(
             binding.editTextName.text.toString(),
@@ -70,6 +71,7 @@ class ProfileEditFragment : Fragment() {
             binding.editTextNickname.text.toString(),
             binding.editTextBirthday.text.toString()
         )
+
         GlobalScope.launch(Dispatchers.IO) {
             try {
                 val response =

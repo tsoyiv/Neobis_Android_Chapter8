@@ -16,6 +16,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileNumbBinding
+import com.example.my_app_eight.models.SendVerificationCodeRequest
+import com.example.my_app_eight.models.api.RetrofitInstanceEdit
 import com.example.my_app_eight.util.PhoneNumberMaskWatcher
 import com.example.my_app_eight.view_models.profile_view_models.NumbViewModel
 import com.example.my_app_eight.view_models.profile_view_models.ProfileDataViewModel
@@ -46,6 +48,31 @@ class ProfileNumbFragment : Fragment() {
         returnToUserInfo()
         saveNumber()
         checkOccupancy()
+        savePhone()
+    }
+
+    private fun savePhone() {
+        val phoneNumber = binding.editNumber.text.toString()
+        val sendVerificationCodeRequest = SendVerificationCodeRequest(phoneNumber)
+
+        try {
+            val response = RetrofitInstanceEdit.api.sendVerificationCode(sendVerificationCodeRequest)
+            if (response.isSuccessful) {
+                activity?.runOnUiThread {
+                    Toast.makeText(requireContext(), "Sent", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_profileNumbFragment_to_profileCodeFragment)
+                }
+            } else {
+                activity?.runOnUiThread {
+                    Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } catch (e: Exception) {
+            activity?.runOnUiThread {
+                Toast.makeText(requireContext(), "Exception occurred while sending verification code: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+
     }
 
     private fun checkOccupancy() {

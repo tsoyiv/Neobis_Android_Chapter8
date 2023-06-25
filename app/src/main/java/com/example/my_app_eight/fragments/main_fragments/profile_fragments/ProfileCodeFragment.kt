@@ -9,10 +9,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileCodeBinding
+import com.example.my_app_eight.models.VerifyCodeRequest
+import com.example.my_app_eight.models.api.RetrofitInstanceEdit
 
 class ProfileCodeFragment : Fragment() {
 
@@ -33,6 +36,31 @@ class ProfileCodeFragment : Fragment() {
         //code()
         returnToNumbPage()
         timerLogic()
+        codeCheck()
+    }
+
+    private fun codeCheck() {
+        val code = binding.inputCode.text.toString()
+
+        val verifyCodeRequest = VerifyCodeRequest(code)
+
+        try {
+            val response = RetrofitInstanceEdit.api.verifyCode(verifyCodeRequest)
+            if (response.isSuccessful) {
+                activity?.runOnUiThread {
+                    Toast.makeText(requireContext(), "Account activated", Toast.LENGTH_SHORT).show()
+                    findNavController().navigate(R.id.action_profileCodeFragment_to_profileEditFragment)
+                }
+            } else {
+                activity?.runOnUiThread {
+                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
+                }
+            }
+        } catch (e: Exception) {
+            activity?.runOnUiThread {
+                Toast.makeText(requireContext(), "Exception occurred while verifying code: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun timerLogic() {

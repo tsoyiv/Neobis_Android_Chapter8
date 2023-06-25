@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -32,6 +33,7 @@ class ProfileMenuFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as HomeActivity).showBtm()
         binding.userInitialName.text = hViewModel.username
+
         toEditPage()
         logOut()
         toLikedPage()
@@ -76,7 +78,9 @@ class ProfileMenuFragment : Fragment() {
         myDialog.show()
 
         dialogBinding.confirm_btn.setOnClickListener {
-            //TODO add confirm logic
+            findNavController().navigate(R.id.action_profileMenuFragment2_to_loginFragment)
+            Toast.makeText(requireContext(), "You logged out from account", Toast.LENGTH_SHORT).show()
+            myDialog.dismiss()
         }
         dialogBinding.text_cancel.setOnClickListener {
             myDialog.dismiss()

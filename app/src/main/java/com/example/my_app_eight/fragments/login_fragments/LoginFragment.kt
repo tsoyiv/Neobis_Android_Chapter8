@@ -38,6 +38,7 @@ class LoginFragment : Fragment() {
     private val userAPI: AuthAPI = RetrofitInstance.api
     val hViewModel : HolderViewModel by activityViewModels()
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

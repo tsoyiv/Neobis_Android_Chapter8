@@ -40,6 +40,9 @@
         <action
             android:id="@+id/action_createPasswordFragment_to_userRegFragment"
             app:destination="@id/userRegFragment" />
+        <action
+            android:id="@+id/action_createPasswordFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/mainFragment"
@@ -63,6 +66,9 @@
         <action
             android:id="@+id/action_profileMenuFragment2_to_addItemFragment"
             app:destination="@id/addItemFragment" />
+        <action
+            android:id="@+id/action_profileMenuFragment2_to_loginFragment"
+            app:destination="@id/loginFragment" />
     </fragment>
     <fragment
         android:id="@+id/profileEditFragment"

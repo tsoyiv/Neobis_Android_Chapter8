@@ -133,7 +133,7 @@ class CreatePasswordFragment : Fragment() {
                     //val email = viewModelHolder.email ?: ""
                     Toast.makeText(requireContext(), "User successfully registered.", Toast.LENGTH_SHORT).show()
                     //callDialog(email)
-                    //findNavController().navigate(R.id.action_createPasswordFragment_to_loginFragment)
+                    findNavController().navigate(R.id.action_createPasswordFragment_to_loginFragment)
                 } else {
                     Toast.makeText(requireContext(), "User with this email already exist", Toast.LENGTH_SHORT).show()
                 }
