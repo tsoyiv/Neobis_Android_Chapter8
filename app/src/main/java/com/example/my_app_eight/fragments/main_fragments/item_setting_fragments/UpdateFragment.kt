@@ -1,20 +1,15 @@
-package com.example.my_app_eight.fragments.main_fragments.update_item_fragment
+package com.example.my_app_eight.fragments.main_fragments.item_setting_fragments
 
 import android.app.Dialog
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.FrameLayout
-import androidx.coordinatorlayout.widget.CoordinatorLayout
-import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentUpdateBinding
-import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.custom_dialog_logout.view.*
 
 class UpdateFragment : Fragment() {

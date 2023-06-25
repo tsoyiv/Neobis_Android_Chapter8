@@ -1,4 +1,4 @@
-package com.example.my_app_eight.models.api
+package com.example.my_app_eight.api
 
 import com.example.my_app_eight.models.SendVerificationCodeRequest
 import com.example.my_app_eight.models.UserInfoRequest
@@ -9,12 +9,7 @@ import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
-interface UserInfoAPI {
-    //    @PUT("profile/")
-//    suspend fun updateUserInfo(
-//        @Header("Authorization") token: String,
-//        @Body userInfo: UserInfoRequest
-//    ): Response<Any>
+interface UserDataAPI {
     @PUT("profile/")
     suspend fun updateUserInfo(
         @Header("Authorization") token: String,
@@ -28,5 +23,7 @@ interface UserInfoAPI {
     ): Call<VerificationCodeResponse>
 
     @POST("verify_phone/")
-    fun verifyCode(@Body request: VerifyCodeRequest): Response<ResponseBody>
+    fun verifyCode(
+        @Body request: VerifyCodeRequest
+    ): Response<ResponseBody>
 }

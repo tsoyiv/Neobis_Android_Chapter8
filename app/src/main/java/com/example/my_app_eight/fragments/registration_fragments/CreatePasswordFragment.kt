@@ -18,7 +18,7 @@ import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentCreatePasswordBinding
 import com.example.my_app_eight.models.UserRegRequest
-import com.example.my_app_eight.models.api.RetrofitInstance
+import com.example.my_app_eight.api.RetrofitInstance
 import com.example.my_app_eight.view_models.reg_view_model.CreatePasswordViewModel
 import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
 import kotlinx.android.synthetic.main.fragment_create_password.*

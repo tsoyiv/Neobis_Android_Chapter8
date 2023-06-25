@@ -1,6 +1,6 @@
-package com.example.my_app_eight.models.api
+package com.example.my_app_eight.api
 
-import com.example.my_app_eight.util.AuthorizationInterceptor
+import com.example.my_app_eight.util.TokenInterceptor
 import com.example.my_app_eight.util.Constants.Companion.BASE_URL
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -15,7 +15,7 @@ class RetrofitInstance {
             logging.setLevel(HttpLoggingInterceptor.Level.BODY)
             val client = OkHttpClient.Builder()
                 .addInterceptor(logging)
-                .addInterceptor(AuthorizationInterceptor())
+                .addInterceptor(TokenInterceptor())
                 .connectTimeout(300, TimeUnit.SECONDS)
                 .readTimeout(300, TimeUnit.SECONDS)
                 .writeTimeout(300, TimeUnit.SECONDS)
@@ -31,7 +31,7 @@ class RetrofitInstance {
             retrofit.create(AuthAPI::class.java)
         }
         val apiUser by lazy {
-            retrofit.create(UserInfoAPI::class.java)
+            retrofit.create(UserDataAPI::class.java)
         }
     }
 }

@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentUserItemsBinding
-import com.example.my_app_eight.models.ItemAdapter
+import com.example.my_app_eight.util.ItemAdapter
 
 class UserItemsFragment : Fragment() {
 

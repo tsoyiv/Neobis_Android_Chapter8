@@ -1,4 +1,4 @@
-package com.example.my_app_eight.models
+package com.example.my_app_eight.util
 
 import android.view.LayoutInflater
 import android.view.View

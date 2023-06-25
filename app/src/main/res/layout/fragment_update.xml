@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#F7F6F9"
-    tools:context=".fragments.main_fragments.update_item_fragment.UpdateFragment">
+    tools:context=".fragments.main_fragments.item_setting_fragments.UpdateFragment">
 
     <ImageView
         android:id="@+id/btn_ready_updateItem"

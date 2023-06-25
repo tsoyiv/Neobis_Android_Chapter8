@@ -51,7 +51,7 @@
         tools:layout="@layout/fragment_main" />
     <fragment
         android:id="@+id/profileMenuFragment2"
-        android:name="com.example.my_app_eight.fragments.main_fragments.profile_fragments.ProfileMenuFragment"
+        android:name="com.example.my_app_eight.fragments.main_fragments.profile_fragments.profile_edit_fragments.ProfileMenuFragment"
         android:label="fragment_profile_menu"
         tools:layout="@layout/fragment_profile_menu" >
         <action
@@ -72,7 +72,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileEditFragment"
-        android:name="com.example.my_app_eight.fragments.main_fragments.profile_fragments.ProfileEditFragment"
+        android:name="com.example.my_app_eight.fragments.main_fragments.profile_fragments.profile_edit_fragments.ProfileEditFragment"
         android:label="fragment_profile_edit"
         tools:layout="@layout/fragment_profile_edit" >
         <action
@@ -87,7 +87,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileNumbFragment"
-        android:name="com.example.my_app_eight.fragments.main_fragments.profile_fragments.ProfileNumbFragment"
+        android:name="com.example.my_app_eight.fragments.main_fragments.profile_fragments.profile_edit_fragments.ProfileNumbFragment"
         android:label="fragment_profile_numb"
         tools:layout="@layout/fragment_profile_numb" >
         <action
@@ -102,7 +102,7 @@
     </fragment>
     <fragment
         android:id="@+id/profileCodeFragment"
-        android:name="com.example.my_app_eight.fragments.main_fragments.profile_fragments.ProfileCodeFragment"
+        android:name="com.example.my_app_eight.fragments.main_fragments.profile_fragments.profile_edit_fragments.ProfileCodeFragment"
         android:label="fragment_profile_code"
         tools:layout="@layout/fragment_profile_code" >
         <action

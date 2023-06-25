@@ -1,4 +1,4 @@
-package com.example.my_app_eight.fragments.main_fragments.profile_fragments
+package com.example.my_app_eight.fragments.main_fragments.profile_fragments.profile_edit_fragments
 
 import android.app.Activity
 import android.app.DatePickerDialog
@@ -18,7 +18,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileEditBinding
 import com.example.my_app_eight.models.UserInfoRequest
-import com.example.my_app_eight.models.api.RetrofitInstance
+import com.example.my_app_eight.api.RetrofitInstance
 import com.example.my_app_eight.util.Holder
 import com.example.my_app_eight.view_models.profile_view_models.ProfileDataViewModel
 import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel

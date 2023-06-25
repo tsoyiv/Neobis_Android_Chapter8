@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentMainBinding
-import com.example.my_app_eight.models.ItemAdapter
+import com.example.my_app_eight.util.ItemAdapter
 import com.google.android.material.snackbar.Snackbar
 
 class MainFragment : Fragment() {

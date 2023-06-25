@@ -1,4 +1,4 @@
-package com.example.my_app_eight.fragments.main_fragments.profile_fragments
+package com.example.my_app_eight.fragments.main_fragments.profile_fragments.profile_edit_fragments
 
 import android.app.Dialog
 import android.graphics.Color
@@ -14,6 +14,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileMenuBinding
+import com.example.my_app_eight.util.Holder
 import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
 import kotlinx.android.synthetic.main.custom_dialog_logout.view.*
 
@@ -32,7 +33,7 @@ class ProfileMenuFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as HomeActivity).showBtm()
-        binding.userInitialName.text = hViewModel.username
+        binding.userInitialName.text = Holder.username
 
         toEditPage()
         logOut()
