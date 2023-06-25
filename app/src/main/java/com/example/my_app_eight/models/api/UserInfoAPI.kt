@@ -10,6 +10,11 @@ import retrofit2.Response
 import retrofit2.http.*
 
 interface UserInfoAPI {
+    //    @PUT("profile/")
+//    suspend fun updateUserInfo(
+//        @Header("Authorization") token: String,
+//        @Body userInfo: UserInfoRequest
+//    ): Response<Any>
     @PUT("profile/")
     suspend fun updateUserInfo(
         @Header("Authorization") token: String,

@@ -18,7 +18,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileEditBinding
 import com.example.my_app_eight.models.UserInfoRequest
-import com.example.my_app_eight.models.api.RetrofitInstanceEdit
+import com.example.my_app_eight.models.api.RetrofitInstance
+import com.example.my_app_eight.util.Holder
 import com.example.my_app_eight.view_models.profile_view_models.ProfileDataViewModel
 import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
 import kotlinx.coroutines.Dispatchers
@@ -62,8 +63,10 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun updateUser() {
-        val accessToken =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg4Mjg1MzAxLCJpYXQiOjE2ODc2ODA1MDEsImp0aSI6IjExOTBiOWQxMDIzNDQzMjdiNzRmMmIzNGVjODcxNmU0IiwidXNlcl9pZCI6MTB9.J_NCaDxcy8rEp_LI_xyPK0b-fenadCYLlWl6bhfyGe8"
+//        val accessToken =
+//            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg4Mjk0OTg5LCJpYXQiOjE2ODc2OTAxODksImp0aSI6ImQ1N2I2NDUyN2YzNTQ5NjNiZjUzNTdmODEwMTU1NDg2IiwidXNlcl9pZCI6MTF9.PLkOkhBfZskJ6lB4bbkC8ChxbG3JNrVD413H-AUQaKk"
+
+        val accessToken = Holder.access_token
 
         val userInfo = UserInfoRequest(
             binding.editTextName.text.toString(),
@@ -71,11 +74,10 @@ class ProfileEditFragment : Fragment() {
             binding.editTextNickname.text.toString(),
             binding.editTextBirthday.text.toString()
         )
-
         GlobalScope.launch(Dispatchers.IO) {
             try {
-                val response =
-                    RetrofitInstanceEdit.api.updateUserInfo("Bearer $accessToken", userInfo)
+                val authHeader = "Bearer $accessToken"
+                val response = RetrofitInstance.apiUser.updateUserInfo(authHeader, userInfo)
                 if (response.isSuccessful) {
                     activity?.runOnUiThread {
                         Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show()
@@ -83,7 +85,11 @@ class ProfileEditFragment : Fragment() {
                     }
                 } else {
                     activity?.runOnUiThread {
-                        Toast.makeText(requireContext(), "The user did not be updated", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(
+                            requireContext(),
+                            "The user was not updated",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                 }
             } catch (e: HttpException) {

@@ -115,7 +115,7 @@ class CreatePasswordFragment : Fragment() {
         }
     }
     private fun registerUser() {
-        val api = RetrofitInstance.api
+        val api = RetrofitInstance.apiAuth
         val requestBody = UserRegRequest(
             username = viewModelHolder.username ?: "",
             email = viewModelHolder.email ?: "",

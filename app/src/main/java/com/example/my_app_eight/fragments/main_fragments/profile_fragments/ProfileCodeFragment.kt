@@ -8,14 +8,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
-import androidx.lifecycle.MutableLiveData
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileCodeBinding
 import com.example.my_app_eight.models.VerifyCodeRequest
-import com.example.my_app_eight.models.api.RetrofitInstanceEdit
+import com.example.my_app_eight.models.api.RetrofitInstance
 
 class ProfileCodeFragment : Fragment() {
 
@@ -45,7 +43,7 @@ class ProfileCodeFragment : Fragment() {
         val verifyCodeRequest = VerifyCodeRequest(code)
 
         try {
-            val response = RetrofitInstanceEdit.api.verifyCode(verifyCodeRequest)
+            val response = RetrofitInstance.apiUser.verifyCode(verifyCodeRequest)
             if (response.isSuccessful) {
                 activity?.runOnUiThread {
                     Toast.makeText(requireContext(), "Account activated", Toast.LENGTH_SHORT).show()

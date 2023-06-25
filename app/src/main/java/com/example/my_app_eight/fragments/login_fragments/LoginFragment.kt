@@ -22,6 +22,7 @@ import com.example.my_app_eight.models.LoginRequest
 import com.example.my_app_eight.models.LoginResponse
 import com.example.my_app_eight.models.api.AuthAPI
 import com.example.my_app_eight.models.api.RetrofitInstance
+import com.example.my_app_eight.util.Holder
 import com.example.my_app_eight.view_models.login_view_model.LoginViewModel
 import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -35,7 +36,7 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     val viewModel: LoginViewModel by viewModels()
-    private val userAPI: AuthAPI = RetrofitInstance.api
+    private val userAPI: AuthAPI = RetrofitInstance.apiAuth
     val hViewModel : HolderViewModel by activityViewModels()
 
 
@@ -67,8 +68,19 @@ class LoginFragment : Fragment() {
                         userAPI.login(request)
                     }
                     if (response.isSuccessful) {
+
+                        val loginResponse = response.body()
+                        val accessToken = loginResponse?.access
+                        val refreshToken = loginResponse?.refresh
+                        if (refreshToken != null && accessToken != null) {
+                            Holder.access_token = accessToken
+                        }
+                        val authHeader = "Bearer $accessToken"
+                        Toast.makeText(requireContext(), authHeader, Toast.LENGTH_SHORT).show()
+                        println(authHeader)
+                        println(Holder.access_token)
                         hViewModel.username = username
-                        Toast.makeText(requireContext(), "You are IN", Toast.LENGTH_SHORT).show()
+                        //Toast.makeText(requireContext(), "You are IN", Toast.LENGTH_SHORT).show()
                         findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
                     } else {
                         callSnackBarAndNavigate()

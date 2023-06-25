@@ -4,8 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.my_app_eight.models.LoginResponse
-import com.example.my_app_eight.models.api.AuthAPI
-import com.example.my_app_eight.models.api.RetrofitInstance
 
 class LoginViewModel : ViewModel() {
 
