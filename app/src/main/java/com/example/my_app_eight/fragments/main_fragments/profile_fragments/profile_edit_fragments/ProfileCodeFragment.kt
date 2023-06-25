@@ -9,58 +9,43 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileCodeBinding
 import com.example.my_app_eight.models.VerifyCodeRequest
 import com.example.my_app_eight.api.RetrofitInstance
+import com.example.my_app_eight.view_models.login_view_model.LoginViewModel
+import com.example.my_app_eight.view_models.profile_view_models.CodeViewModel
 
 class ProfileCodeFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileCodeBinding
     private lateinit var countDownTimer: CountDownTimer
+    private val vm: CodeViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentProfileCodeBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        //code()
         returnToNumbPage()
         timerLogic()
         codeSend()
     }
 
     private fun codeCheck() {
-        val code = binding.inputCode.text.toString()
-
-        val verifyCodeRequest = VerifyCodeRequest(code)
-
-        try {
-            val response = RetrofitInstance.apiUser.verifyCode(verifyCodeRequest)
-            if (response.isSuccessful) {
-                activity?.runOnUiThread {
-                    Toast.makeText(requireContext(), "Account activated", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_profileCodeFragment_to_profileEditFragment)
-                }
+        vm.isCodeVerified.observe(viewLifecycleOwner) { isVerified ->
+            if (isVerified) {
+                Toast.makeText(requireContext(), "Account activated", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_profileCodeFragment_to_profileEditFragment)
             } else {
-                activity?.runOnUiThread {
-                    Toast.makeText(requireContext(), "Error", Toast.LENGTH_SHORT).show()
-                }
-            }
-        } catch (e: Exception) {
-            activity?.runOnUiThread {
-                Toast.makeText(
-                    requireContext(),
-                    "Exception occurred while verifying code: ${e.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                Toast.makeText(requireContext(), "Incorrect Code", Toast.LENGTH_SHORT).show()
             }
         }
     }

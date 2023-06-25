@@ -66,7 +66,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Повторный запрос"
-        android:visibility="gone"
+        android:visibility="visible"
         android:textColor="#C0C0C0"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"

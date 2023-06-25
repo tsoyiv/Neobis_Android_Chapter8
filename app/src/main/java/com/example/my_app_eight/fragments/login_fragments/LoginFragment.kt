@@ -26,7 +26,6 @@ class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private val vm: LoginViewModel by viewModels()
-    private val authAPI: AuthAPI = RetrofitInstance.apiAuth
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

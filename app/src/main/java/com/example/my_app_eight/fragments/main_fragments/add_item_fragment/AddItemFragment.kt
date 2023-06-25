@@ -27,7 +27,6 @@ class AddItemFragment : Fragment() {
 
     private lateinit var binding : FragmentAddItemBinding
     private val PICK_IMAGE_REQUEST = 1
-
     private lateinit var addButton: ImageView
     private lateinit var imageContainer: ViewGroup
 
@@ -35,13 +34,13 @@ class AddItemFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         binding = FragmentAddItemBinding.inflate(inflater, container, false)
         return binding.root
     }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         (requireActivity() as HomeActivity).hide()
+
         callGallery()
         cancelBtn()
         saveItem()
