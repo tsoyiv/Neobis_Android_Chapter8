@@ -19,7 +19,7 @@ import com.example.my_app_eight.models.api.RetrofitInstanceEdit
 
 class ProfileCodeFragment : Fragment() {
 
-    private lateinit var binding : FragmentProfileCodeBinding
+    private lateinit var binding: FragmentProfileCodeBinding
     private lateinit var countDownTimer: CountDownTimer
 
     override fun onCreateView(
@@ -36,7 +36,7 @@ class ProfileCodeFragment : Fragment() {
         //code()
         returnToNumbPage()
         timerLogic()
-        codeCheck()
+        codeSend()
     }
 
     private fun codeCheck() {
@@ -58,7 +58,11 @@ class ProfileCodeFragment : Fragment() {
             }
         } catch (e: Exception) {
             activity?.runOnUiThread {
-                Toast.makeText(requireContext(), "Exception occurred while verifying code: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Exception occurred while verifying code: ${e.message}",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -67,8 +71,7 @@ class ProfileCodeFragment : Fragment() {
         binding.textViewInfo.text = "Повторный запрос"
         binding.textViewRetryRequest.visibility = View.GONE
 
-        startTimer(5000)
-        //TODO change the duration of timer
+        startTimer(60000)
     }
 
     private fun startTimer(duration: Long) {
@@ -93,7 +96,7 @@ class ProfileCodeFragment : Fragment() {
 
         binding.textViewRetryRequest.setOnClickListener {
             if (!isTimerRunning) {
-                startTimer(5000)
+                startTimer(60000)
                 binding.textViewRetryRequest.visibility = View.GONE
                 binding.textViewInfo.visibility = View.VISIBLE
                 binding.timerTextView.visibility = View.VISIBLE
@@ -106,5 +109,21 @@ class ProfileCodeFragment : Fragment() {
         binding.btnReturnAddNumb.setOnClickListener {
             findNavController().navigate(R.id.action_profileCodeFragment_to_profileNumbFragment)
         }
+    }
+
+    private fun codeSend() {
+        val editText = binding.inputCode
+        editText.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+            }
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+            }
+            override fun afterTextChanged(s: Editable?) {
+                val input = s?.toString() ?: ""
+                if (input.length == 4) {
+                    codeCheck()
+                }
+            }
+        })
     }
 }

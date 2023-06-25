@@ -17,10 +17,14 @@ import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileNumbBinding
 import com.example.my_app_eight.models.SendVerificationCodeRequest
+import com.example.my_app_eight.models.VerificationCodeResponse
 import com.example.my_app_eight.models.api.RetrofitInstanceEdit
 import com.example.my_app_eight.util.PhoneNumberMaskWatcher
 import com.example.my_app_eight.view_models.profile_view_models.NumbViewModel
 import com.example.my_app_eight.view_models.profile_view_models.ProfileDataViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class ProfileNumbFragment : Fragment() {
 
@@ -44,6 +48,7 @@ class ProfileNumbFragment : Fragment() {
         val phoneNumberMaskWatcher = PhoneNumberMaskWatcher(editText)
         editText.filters = arrayOf(InputFilter.LengthFilter(15))
         editText.addTextChangedListener(phoneNumberMaskWatcher)
+
         toGetCode()
         returnToUserInfo()
         saveNumber()
@@ -53,26 +58,32 @@ class ProfileNumbFragment : Fragment() {
 
     private fun savePhone() {
         val phoneNumber = binding.editNumber.text.toString()
-        val sendVerificationCodeRequest = SendVerificationCodeRequest(phoneNumber)
+        val request = SendVerificationCodeRequest(phoneNumber)
+        val token =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg4Mjg4MjcyLCJpYXQiOjE2ODc2ODM0NzIsImp0aSI6ImM1NTllNDg0ZGNiYTQ1MWRiMjM2NTRhNjk2YzE1YzY4IiwidXNlcl9pZCI6MTF9.-saLLoe0vTtRCq2Ah4vzB5MsM7YkZJJ52jKbDx3nQpw"
+        val call = RetrofitInstanceEdit.api.sendVerificationCode(token, request)
 
-        try {
-            val response = RetrofitInstanceEdit.api.sendVerificationCode(sendVerificationCodeRequest)
-            if (response.isSuccessful) {
-                activity?.runOnUiThread {
-                    Toast.makeText(requireContext(), "Sent", Toast.LENGTH_SHORT).show()
-                    findNavController().navigate(R.id.action_profileNumbFragment_to_profileCodeFragment)
-                }
-            } else {
-                activity?.runOnUiThread {
+        call.enqueue(object :
+            Callback<VerificationCodeResponse> { // Replace YourResponseType with the actual response type
+            override fun onResponse(
+                call: Call<VerificationCodeResponse>,
+                response: Response<VerificationCodeResponse>
+            ) {
+                if (response.isSuccessful) {
+                    activity?.runOnUiThread {
+                        Toast.makeText(requireContext(), "Sent", Toast.LENGTH_SHORT).show()
+                        findNavController().navigate(R.id.action_profileNumbFragment_to_profileCodeFragment)
+                    }
+                } else {
+                    activity?.runOnUiThread {
                     Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
                 }
+                }
             }
-        } catch (e: Exception) {
-            activity?.runOnUiThread {
-                Toast.makeText(requireContext(), "Exception occurred while sending verification code: ${e.message}", Toast.LENGTH_SHORT).show()
+            override fun onFailure(call: Call<VerificationCodeResponse>, t: Throwable) {
+                // Handle failure here
             }
-        }
-
+        })
     }
 
     private fun checkOccupancy() {
