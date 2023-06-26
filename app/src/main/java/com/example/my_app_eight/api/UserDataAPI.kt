@@ -1,7 +1,7 @@
 package com.example.my_app_eight.api
 
 import com.example.my_app_eight.models.SendVerificationCodeRequest
-import com.example.my_app_eight.models.UserInfoRequest
+import com.example.my_app_eight.models.UserDataRequest
 import com.example.my_app_eight.models.VerificationCodeResponse
 import com.example.my_app_eight.models.VerifyCodeRequest
 import okhttp3.ResponseBody
@@ -13,7 +13,7 @@ interface UserDataAPI {
     @PUT("profile/")
     suspend fun updateUserInfo(
         @Header("Authorization") token: String,
-        @Body userInfo: UserInfoRequest
+        @Body userInfo: UserDataRequest
     ): Response<Any>
 
     @PUT("send_verification_code/")

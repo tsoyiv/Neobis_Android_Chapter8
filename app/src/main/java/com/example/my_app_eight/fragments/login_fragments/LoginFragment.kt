@@ -2,6 +2,8 @@ package com.example.my_app_eight.fragments.login_fragments
 
 import android.graphics.Color
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +13,7 @@ import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
@@ -20,12 +23,14 @@ import com.example.my_app_eight.api.AuthAPI
 import com.example.my_app_eight.api.RetrofitInstance
 import com.example.my_app_eight.databinding.FragmentLoginBinding
 import com.example.my_app_eight.view_models.login_view_model.LoginViewModel
+import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
 import com.google.android.material.snackbar.Snackbar
 
 class LoginFragment : Fragment() {
 
     private lateinit var binding: FragmentLoginBinding
     private val vm: LoginViewModel by viewModels()
+    private val vmH : HolderViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -47,6 +52,7 @@ class LoginFragment : Fragment() {
     private fun login() {
         binding.btnLogin.setOnClickListener {
             val username = binding.inputUsername.text.toString()
+            vmH.username = binding.inputUsername.text.toString()
             val password = binding.inputLoginPassword.text.toString()
             vm.login(username, password)
         }

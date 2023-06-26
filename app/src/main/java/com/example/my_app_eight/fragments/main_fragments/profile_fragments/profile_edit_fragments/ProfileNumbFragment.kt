@@ -19,6 +19,7 @@ import com.example.my_app_eight.databinding.FragmentProfileNumbBinding
 import com.example.my_app_eight.models.SendVerificationCodeRequest
 import com.example.my_app_eight.models.VerificationCodeResponse
 import com.example.my_app_eight.api.RetrofitInstance
+import com.example.my_app_eight.util.Holder
 import com.example.my_app_eight.util.PhoneNumberMaskWatcher
 import com.example.my_app_eight.view_models.profile_view_models.NumbViewModel
 import com.example.my_app_eight.view_models.profile_view_models.ProfileDataViewModel
@@ -59,12 +60,11 @@ class ProfileNumbFragment : Fragment() {
     private fun savePhone() {
         val phoneNumber = binding.editNumber.text.toString()
         val request = SendVerificationCodeRequest(phoneNumber)
-        val token =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg4Mjg4MjcyLCJpYXQiOjE2ODc2ODM0NzIsImp0aSI6ImM1NTllNDg0ZGNiYTQ1MWRiMjM2NTRhNjk2YzE1YzY4IiwidXNlcl9pZCI6MTF9.-saLLoe0vTtRCq2Ah4vzB5MsM7YkZJJ52jKbDx3nQpw"
+        val token = Holder.access_token
         val call = RetrofitInstance.apiUser.sendVerificationCode(token, request)
 
         call.enqueue(object :
-            Callback<VerificationCodeResponse> { // Replace YourResponseType with the actual response type
+            Callback<VerificationCodeResponse> {
             override fun onResponse(
                 call: Call<VerificationCodeResponse>,
                 response: Response<VerificationCodeResponse>
@@ -120,20 +120,5 @@ class ProfileNumbFragment : Fragment() {
         binding.btnGetCodePage.setOnClickListener {
             findNavController().navigate(R.id.action_profileNumbFragment_to_profileCodeFragment)
         }
-    }
-
-
-    private fun logicForWritingNumber() {
-        val editNumber = view?.findViewById<EditText>(R.id.edit_number)
-        editNumber?.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
-
-            override fun afterTextChanged(s: Editable?) {
-                val phoneNumber = s.toString()
-                viewModel.phoneNumber.set(phoneNumber)
-            }
-        })
     }
 }

@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentUserRegBinding
+import com.example.my_app_eight.util.Holder
 import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
 import com.example.my_app_eight.view_models.reg_view_model.UserRegViewModel
 

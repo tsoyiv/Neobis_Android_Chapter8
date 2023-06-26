@@ -21,7 +21,6 @@ import kotlinx.android.synthetic.main.custom_dialog_logout.view.*
 class ProfileMenuFragment : Fragment() {
 
     private lateinit var binding : FragmentProfileMenuBinding
-    val hViewModel : HolderViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

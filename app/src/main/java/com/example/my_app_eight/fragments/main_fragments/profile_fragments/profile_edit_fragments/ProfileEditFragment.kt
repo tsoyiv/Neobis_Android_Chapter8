@@ -17,22 +17,17 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileEditBinding
-import com.example.my_app_eight.models.UserInfoRequest
-import com.example.my_app_eight.api.RetrofitInstance
+import com.example.my_app_eight.models.UserDataRequest
 import com.example.my_app_eight.util.Holder
 import com.example.my_app_eight.view_models.profile_view_models.ProfileDataViewModel
 import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
-import retrofit2.HttpException
 import java.util.*
 
 class ProfileEditFragment : Fragment() {
 
     private lateinit var binding: FragmentProfileEditBinding
-    val viewModelHolder: ProfileDataViewModel by activityViewModels()
-    val hViewModel : HolderViewModel by activityViewModels()
+    private val vm: ProfileDataViewModel by activityViewModels()
+    private val vmH : HolderViewModel by activityViewModels()
     private val PICK_IMAGE_REQUEST = 1
     private lateinit var profileImageView: ImageView
 
@@ -47,7 +42,8 @@ class ProfileEditFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.changeEmail.text = hViewModel.email
+        binding.changeEmail.text = vmH.email
+
         toAddNumber()
         callGallery()
         saveDataInFields()
@@ -63,93 +59,26 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun updateUser() {
-//        val accessToken =
-//            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg4Mjk0OTg5LCJpYXQiOjE2ODc2OTAxODksImp0aSI6ImQ1N2I2NDUyN2YzNTQ5NjNiZjUzNTdmODEwMTU1NDg2IiwidXNlcl9pZCI6MTF9.PLkOkhBfZskJ6lB4bbkC8ChxbG3JNrVD413H-AUQaKk"
-
         val accessToken = Holder.access_token
 
-        val userInfo = UserInfoRequest(
+        val userInfo = UserDataRequest(
             binding.editTextName.text.toString(),
             binding.editTextSurname.text.toString(),
             binding.editTextNickname.text.toString(),
             binding.editTextBirthday.text.toString()
         )
-        GlobalScope.launch(Dispatchers.IO) {
-            try {
-                val authHeader = "Bearer $accessToken"
-                val response = RetrofitInstance.apiUser.updateUserInfo(authHeader, userInfo)
-                if (response.isSuccessful) {
-                    activity?.runOnUiThread {
-                        Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show()
-                        findNavController().navigate(R.id.action_profileEditFragment_to_profileMenuFragment22)
-                    }
-                } else {
-                    activity?.runOnUiThread {
-                        Toast.makeText(
-                            requireContext(),
-                            "The user was not updated",
-                            Toast.LENGTH_SHORT
-                        ).show()
-                    }
-                }
-            } catch (e: HttpException) {
-                // Handle HTTP exception
-            } catch (e: Exception) {
-                // Handle other exceptions
+        vm.updateUser(accessToken, userInfo)
+
+        vm.updateResult.observe(viewLifecycleOwner) { isSuccess ->
+            if (isSuccess) {
+                Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.action_profileEditFragment_to_profileMenuFragment22)
+            } else {
+                Toast.makeText(requireContext(), "The user was not updated", Toast.LENGTH_SHORT)
+                    .show()
             }
         }
     }
-
-//    private fun editProfile() {
-//        userInfoAPI = RetrofitInstance.api
-//        val userInfo = UserInfoRequest(
-//            binding.editTextName.text.toString(),
-//            binding.editTextSurname.text.toString(),
-//            binding.editTextNickname.text.toString(),
-//            binding.editTextBirthday.text.toString()
-//        )
-//
-//        updateUserInfo(userInfo)
-//    }
-//
-//    private fun updateUserInfo(userInfo: UserInfoRequest) {
-//
-//        val tokenManager = TokenManager(requireContext())
-//        val token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjg4MDMyOTg2LCJpYXQiOjE2ODc0MjgxODYsImp0aSI6ImQwNTE3NjdmMzdjMDRkYjk5YzJlZTRmM2I1YjZhNDkxIiwidXNlcl9pZCI6N30.aXUsvQ9VTiQWNwR54bbYm78Ln9C02DIPwEwkij5yDM8"
-//
-//        if (token != null) {
-//            val call = userInfoAPI.updateUserInfo(userInfo)
-//            call.enqueue(object : Callback<Unit> {
-//                override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-//                    if (response.isSuccessful) {
-//                        Toast.makeText(requireContext(), "updated", Toast.LENGTH_SHORT).show()
-//                    } else {
-//                        Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
-//                    }
-//                }
-//
-//                override fun onFailure(call: Call<Unit>, t: Throwable) {
-//                    // Request failed, handle error here
-//                }
-//            })
-//        } else {
-//            Toast.makeText(requireContext(), "did not receive token", Toast.LENGTH_SHORT).show()
-//        }
-
-//        val call = userInfoAPI.updateUserInfo(token, userInfo)
-//        call.enqueue(object : Callback<Unit> {
-//            override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
-//                if (response.isSuccessful) {
-//                    Toast.makeText(requireContext(), "updated", Toast.LENGTH_SHORT).show()
-//                } else {
-//                    Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
-//                }
-//            }
-//
-//            override fun onFailure(call: Call<Unit>, t: Throwable) {
-//                // Request failed, handle error here
-//            }
-//        })
 
     private fun callGallery() {
         val txt_img_req = binding.chooseImg
@@ -188,16 +117,27 @@ class ProfileEditFragment : Fragment() {
         val editTextSurname = binding.editTextSurname
         val editTextNickname = binding.editTextNickname
         val editTextBirthday = binding.editTextBirthday
+        val editTextHoldUsername = binding.editTextNickname
 
-        editTextName.setText(viewModelHolder.name)
-        editTextSurname.setText(viewModelHolder.surname)
-        editTextNickname.setText(viewModelHolder.nickname)
-        editTextBirthday.setText(viewModelHolder.birthday)
+        editTextName.setText(vm.name)
+        editTextSurname.setText(vm.surname)
+        editTextNickname.setText(vm.nickname)
+        editTextBirthday.setText(vm.birthday)
+        editTextHoldUsername.setText(vmH.username)
+
+        editTextHoldUsername.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                vmH.username = s?.toString() ?: ""
+            }
+
+            override fun afterTextChanged(s: Editable?) {}
+        })
 
         editTextName.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModelHolder.name = s?.toString() ?: ""
+                vm.name = s?.toString() ?: ""
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -206,7 +146,7 @@ class ProfileEditFragment : Fragment() {
         editTextSurname.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModelHolder.surname = s?.toString() ?: ""
+                vm.surname = s?.toString() ?: ""
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -215,7 +155,7 @@ class ProfileEditFragment : Fragment() {
         editTextNickname.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModelHolder.nickname = s?.toString() ?: ""
+                vm.nickname = s?.toString() ?: ""
             }
 
             override fun afterTextChanged(s: Editable?) {}
@@ -224,7 +164,7 @@ class ProfileEditFragment : Fragment() {
         editTextBirthday.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                viewModelHolder.birthday = s?.toString() ?: ""
+                vm.birthday = s?.toString() ?: ""
             }
 
             override fun afterTextChanged(s: Editable?) {}
