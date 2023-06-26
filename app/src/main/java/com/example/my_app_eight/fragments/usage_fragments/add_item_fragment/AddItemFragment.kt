@@ -1,4 +1,4 @@
-package com.example.my_app_eight.fragments.main_fragments.add_item_fragment
+package com.example.my_app_eight.fragments.usage_fragments.add_item_fragment
 
 import android.app.Activity
 import android.app.Dialog

@@ -1,4 +1,4 @@
-package com.example.my_app_eight.fragments.main_fragments.profile_fragments.profile_edit_fragments
+package com.example.my_app_eight.fragments.usage_fragments.profile_fragments.profile_edit_fragments
 
 import android.app.Activity
 import android.app.DatePickerDialog

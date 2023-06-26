@@ -1,4 +1,4 @@
-package com.example.my_app_eight.fragments.main_fragments
+package com.example.my_app_eight.fragments.usage_fragments
 
 import android.graphics.Color
 import android.os.Bundle

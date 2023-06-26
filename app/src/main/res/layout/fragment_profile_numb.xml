@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".fragments.main_fragments.profile_fragments.profile_edit_fragments.ProfileNumbFragment">
+    tools:context=".fragments.usage_fragments.profile_fragments.profile_edit_fragments.ProfileNumbFragment">
 
     <ImageView
         android:id="@+id/btn_return_editPage"

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F7F6F9"
-    tools:context=".fragments.main_fragments.profile_fragments.profile_edit_fragments.ProfileEditFragment">
+    tools:context=".fragments.usage_fragments.profile_fragments.profile_edit_fragments.ProfileEditFragment">
 
 
     <ImageView

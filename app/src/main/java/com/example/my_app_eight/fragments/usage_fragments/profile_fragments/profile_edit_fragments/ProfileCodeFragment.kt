@@ -1,4 +1,4 @@
-package com.example.my_app_eight.fragments.main_fragments.profile_fragments.profile_edit_fragments
+package com.example.my_app_eight.fragments.usage_fragments.profile_fragments.profile_edit_fragments
 
 import android.os.Bundle
 import android.os.CountDownTimer
@@ -13,9 +13,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileCodeBinding
-import com.example.my_app_eight.models.VerifyCodeRequest
-import com.example.my_app_eight.api.RetrofitInstance
-import com.example.my_app_eight.view_models.login_view_model.LoginViewModel
 import com.example.my_app_eight.view_models.profile_view_models.CodeViewModel
 
 class ProfileCodeFragment : Fragment() {

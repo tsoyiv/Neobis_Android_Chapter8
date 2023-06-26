@@ -1,4 +1,4 @@
-package com.example.my_app_eight.fragments.main_fragments.profile_fragments.user_menu_fragments
+package com.example.my_app_eight.fragments.usage_fragments.profile_fragments.user_menu_fragments
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
