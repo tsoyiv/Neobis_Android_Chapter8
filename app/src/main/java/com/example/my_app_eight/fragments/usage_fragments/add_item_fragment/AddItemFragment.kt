@@ -7,6 +7,7 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -19,9 +20,16 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
+import com.example.my_app_eight.api.RetrofitInstance
 import com.example.my_app_eight.databinding.FragmentAddItemBinding
+import com.example.my_app_eight.models.ProductPostRequest
+import com.example.my_app_eight.models.ProductResponse
+import com.example.my_app_eight.util.Holder
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.custom_dialog_logout.view.*
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class AddItemFragment : Fragment() {
 
@@ -46,6 +54,40 @@ class AddItemFragment : Fragment() {
         saveItem()
     }
 
+    private fun inputItem() {
+        val item = ProductPostRequest(
+            name = "Example Item",
+            price = "10.99",
+            description = "Example description",
+            photo = null.toString()
+        )
+        postItemToServer(item)
+    }
+
+    private fun postItemToServer(item: ProductPostRequest) {
+        val apiService = RetrofitInstance.apiProduct
+
+        val token = Holder.access_token
+        val authH = "Bearer $token"
+        apiService.addItem(authH, item).enqueue(object : Callback<ProductResponse> {
+            override fun onResponse(call: Call<ProductResponse>, response: Response<ProductResponse>) {
+                if (response.isSuccessful) {
+                    val addedItem = response.body()
+                    if (addedItem != null) {
+                        Log.d("AddItemFragment", "Item posted successfully")
+                    }
+                } else {
+                    Log.e("AddItemFragment", "Failed to post item: ${response.code()}")
+                }
+            }
+
+            override fun onFailure(call: Call<ProductResponse>, t: Throwable) {
+                Log.e("AddItemFragment", "Failed to post item", t)
+            }
+        })
+    }
+
+
     private fun callDialog() {
         val dialogBinding = layoutInflater.inflate(R.layout.custom_cancel_editing, null)
 
@@ -68,6 +110,7 @@ class AddItemFragment : Fragment() {
     private fun saveItem() {
         binding.btnReadyAddItem.setOnClickListener {
             callSnackBarAndNavigate()
+            inputItem()
         }
     }
 

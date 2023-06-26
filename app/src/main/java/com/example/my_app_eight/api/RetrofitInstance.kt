@@ -33,5 +33,8 @@ class RetrofitInstance {
         val apiUser by lazy {
             retrofit.create(UserDataAPI::class.java)
         }
+        val apiProduct by lazy {
+            retrofit.create(ProductAPI::class.java)
+        }
     }
 }
