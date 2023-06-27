@@ -7,18 +7,15 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.my_app_eight.R
 import com.example.my_app_eight.api.RetrofitInstance
 import com.example.my_app_eight.databinding.FragmentUserItemsBinding
-import com.example.my_app_eight.models.ProductResponse
 import com.example.my_app_eight.util.Holder
 import com.example.my_app_eight.util.ItemAdapter
 import com.example.my_app_eight.util.RecyclerListener
 import com.example.my_app_eight.view_models.item_view_model.MainFragmentViewModel
-import com.example.my_app_eight.view_models.recycler_view_model.MyItemsRecViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.bottom_dialog.view.*
 import retrofit2.Call
@@ -56,13 +53,13 @@ class UserItemsFragment : Fragment() {
     }
 
     private val listener = object : RecyclerListener {
-        override fun deleteShoe(item: ProductResponse) {
+        override fun deleteProduct(item: Int) {
             val bottomSheetDialog = BottomSheetDialog(requireContext())
             val inflater = layoutInflater
             val dialogView = inflater.inflate(R.layout.bottom_dialog, null)
 
             dialogView.delete_item.setOnClickListener {
-                logicForAlertDialog(item)
+                deleteShoe(item)
             }
             dialogView.txtBtn_editItem.setOnClickListener {
                 findNavController().navigate(R.id.action_userItemsFragment_to_addItemFragment)
@@ -73,7 +70,7 @@ class UserItemsFragment : Fragment() {
         }
     }
 
-    private fun logicForAlertDialog(item: ProductResponse) {
+    fun deleteShoe(item: Int) {
         val productAPI = RetrofitInstance.apiProduct
         val token = Holder.access_token
         val authHolder = "Bearer $token"
@@ -93,6 +90,27 @@ class UserItemsFragment : Fragment() {
             }
         })
     }
+
+//    private fun logicForAlertDialog(item: ProductResponse) {
+//        val productAPI = RetrofitInstance.apiProduct
+//        val token = Holder.access_token
+//        val authHolder = "Bearer $token"
+//        val itemID = item
+//
+//        productAPI.deleteProduct(authHolder, itemID).enqueue(object : Callback<Void> {
+//            override fun onResponse(call: Call<Void>, response: Response<Void>) {
+//                if (response.isSuccessful) {
+//                    Toast.makeText(requireContext(), "removed", Toast.LENGTH_SHORT).show()
+//                } else {
+//                    Toast.makeText(requireContext(), "error", Toast.LENGTH_SHORT).show()
+//                }
+//            }
+//
+//            override fun onFailure(call: Call<Void>, t: Throwable) {
+//                // Handle error case
+//            }
+//        })
+//    }
 
     private fun setupRV() {
         itemAdapter = ItemAdapter(listener, mutableListOf())
