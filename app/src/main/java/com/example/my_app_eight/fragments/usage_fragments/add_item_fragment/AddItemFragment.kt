@@ -5,9 +5,9 @@ import android.app.Dialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -25,6 +26,7 @@ import com.example.my_app_eight.databinding.FragmentAddItemBinding
 import com.example.my_app_eight.models.ProductPostRequest
 import com.example.my_app_eight.models.ProductResponse
 import com.example.my_app_eight.util.Holder
+import com.example.my_app_eight.util.Holder.selectedImageUri
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.custom_dialog_logout.view.*
 import retrofit2.Call
@@ -37,6 +39,7 @@ class AddItemFragment : Fragment() {
     private val PICK_IMAGE_REQUEST = 1
     private lateinit var addButton: ImageView
     private lateinit var imageContainer: ViewGroup
+    private var selectedImageUrl: Uri? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -56,10 +59,10 @@ class AddItemFragment : Fragment() {
 
     private fun inputItem() {
         val item = ProductPostRequest(
-            name = "Example Item",
-            price = "10.99",
-            description = "Example description",
-            photo = null.toString()
+            name = binding.editTextName.text.toString(),
+            price = binding.editTextPrice.text.toString(),
+            description = binding.editTextShortD.text.toString(),
+            photo = selectedImageUrl
         )
         postItemToServer(item)
     }
@@ -74,19 +77,17 @@ class AddItemFragment : Fragment() {
                 if (response.isSuccessful) {
                     val addedItem = response.body()
                     if (addedItem != null) {
-                        Log.d("AddItemFragment", "Item posted successfully")
+                        Toast.makeText(requireContext(), "product added", Toast.LENGTH_SHORT).show()
                     }
                 } else {
-                    Log.e("AddItemFragment", "Failed to post item: ${response.code()}")
+                    Toast.makeText(requireContext(), "failed to add item", Toast.LENGTH_SHORT).show()
                 }
             }
-
             override fun onFailure(call: Call<ProductResponse>, t: Throwable) {
-                Log.e("AddItemFragment", "Failed to post item", t)
+                Toast.makeText(requireContext(), "failed to post, error happened", Toast.LENGTH_SHORT).show()
             }
         })
     }
-
 
     private fun callDialog() {
         val dialogBinding = layoutInflater.inflate(R.layout.custom_cancel_editing, null)
@@ -179,6 +180,8 @@ class AddItemFragment : Fragment() {
             imageView.setBackgroundResource(R.drawable.rounded_image_background)
             imageView.clipToOutline = true // Add rounded corners
             imageContainer.addView(imageView)
+
+            selectedImageUri = imageUri
         }
     }
 }
