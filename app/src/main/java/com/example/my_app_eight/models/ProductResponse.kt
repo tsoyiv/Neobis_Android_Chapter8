@@ -7,8 +7,8 @@ data class ProductResponse(
     val description: String,
     val photo: String,
     val owner: Int,
-    val likes: List<Like>
+    val like_count: String
 )
-data class Like(
-    val username: String
-)
+//data class Like(
+//    val username: String
+//)

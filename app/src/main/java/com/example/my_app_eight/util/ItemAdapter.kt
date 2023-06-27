@@ -7,8 +7,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.my_app_eight.R
 import com.example.my_app_eight.models.ProductPostRequest
+import com.example.my_app_eight.models.ProductResponse
 
-class ItemAdapter(private val productList: MutableList<ProductPostRequest>) : RecyclerView.Adapter<ItemAdapter.ProductViewHolder>() {
+class ItemAdapter(private val productList: MutableList<ProductResponse>) : RecyclerView.Adapter<ItemAdapter.ProductViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.custom_item, parent, false)
@@ -24,7 +25,7 @@ class ItemAdapter(private val productList: MutableList<ProductPostRequest>) : Re
         return productList.size
     }
 
-    fun addItem(product: ProductPostRequest) {
+    fun addItem(product: ProductResponse) {
         productList.add(product)
         notifyDataSetChanged()
     }
@@ -34,13 +35,13 @@ class ItemAdapter(private val productList: MutableList<ProductPostRequest>) : Re
         private val priceTextView: TextView = itemView.findViewById(R.id.price_of_item)
         private val likedTextView: TextView = itemView.findViewById(R.id.amount_liked)
 
-        fun bind(product: ProductPostRequest) {
+        fun bind(product: ProductResponse) {
             nameTextView.text = product.name
             priceTextView.text = product.price
-//            likedTextView.text = product.likeCount
+            likedTextView.text = product.like_count
         }
     }
-    fun setProducts(products: List<ProductPostRequest>) {
+    fun setProducts(products: List<ProductResponse>) {
         productList.clear()
         productList.addAll(products)
         notifyDataSetChanged()

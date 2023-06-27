@@ -13,5 +13,5 @@ interface ProductAPI {
     ): Call<ProductResponse>
 
     @GET("products/")
-    fun getProducts(@Header("Authorization") token: String): Call<List<ProductPostRequest>>
+    fun getProducts(@Header("Authorization") token: String): Call<List<ProductResponse>>
 }

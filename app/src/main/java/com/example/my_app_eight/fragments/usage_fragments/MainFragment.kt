@@ -14,6 +14,7 @@ import com.example.my_app_eight.R
 import com.example.my_app_eight.api.RetrofitInstance
 import com.example.my_app_eight.databinding.FragmentMainBinding
 import com.example.my_app_eight.models.ProductPostRequest
+import com.example.my_app_eight.models.ProductResponse
 import com.example.my_app_eight.util.Holder
 import com.example.my_app_eight.util.ItemAdapter
 import com.google.android.material.snackbar.Snackbar
@@ -47,10 +48,10 @@ class MainFragment : Fragment() {
         val token = Holder.access_token
         val authHolder = "Bearer $token"
 
-        productAPI.getProducts(authHolder).enqueue(object : Callback<List<ProductPostRequest>> {
+        productAPI.getProducts(authHolder).enqueue(object : Callback<List<ProductResponse>> {
             override fun onResponse(
-                call: Call<List<ProductPostRequest>>,
-                response: Response<List<ProductPostRequest>>
+                call: Call<List<ProductResponse>>,
+                response: Response<List<ProductResponse>>
             ) {
                 if (response.isSuccessful) {
                     val products = response.body()
@@ -61,8 +62,8 @@ class MainFragment : Fragment() {
                     // Handle error case
                 }
             }
-            override fun onFailure(call: Call<List<ProductPostRequest>>, t: Throwable) {
-                // Handle error case
+            override fun onFailure(call: Call<List<ProductResponse>>, t: Throwable) {
+                TODO("Not yet implemented")
             }
         })
     }
