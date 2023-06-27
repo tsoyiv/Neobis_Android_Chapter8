@@ -3,22 +3,22 @@ package com.example.my_app_eight.fragments.usage_fragments
 import android.graphics.Color
 import android.os.Bundle
 import android.view.Gravity
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
 import com.example.my_app_eight.api.RetrofitInstance
 import com.example.my_app_eight.databinding.FragmentMainBinding
-import com.example.my_app_eight.models.ProductPostRequest
 import com.example.my_app_eight.models.ProductResponse
 import com.example.my_app_eight.util.Holder
 import com.example.my_app_eight.util.ItemAdapter
+import com.example.my_app_eight.view_models.item_view_model.MainFragmentViewModel
 import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.transition.Hold
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -27,6 +27,7 @@ class MainFragment : Fragment() {
 
     private lateinit var binding: FragmentMainBinding
     private lateinit var itemAdapter: ItemAdapter
+    private val viewModel: MainFragmentViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,28 +45,12 @@ class MainFragment : Fragment() {
     }
 
     private fun showProduct() {
-        val productAPI = RetrofitInstance.apiProduct
-        val token = Holder.access_token
-        val authHolder = "Bearer $token"
-
-        productAPI.getProducts(authHolder).enqueue(object : Callback<List<ProductResponse>> {
-            override fun onResponse(
-                call: Call<List<ProductResponse>>,
-                response: Response<List<ProductResponse>>
-            ) {
-                if (response.isSuccessful) {
-                    val products = response.body()
-                    if (products != null) {
-                        itemAdapter.setProducts(products)
-                    }
-                } else {
-                    // Handle error case
-                }
+        viewModel.products.observe(viewLifecycleOwner) { products ->
+            if (products != null) {
+                itemAdapter.setProducts(products)
             }
-            override fun onFailure(call: Call<List<ProductResponse>>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
-        })
+        }
+        viewModel.fetchProducts()
     }
 
     private fun setupRV() {
