@@ -11,13 +11,21 @@ import android.widget.FrameLayout
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
+import com.example.my_app_eight.api.RetrofitInstance
 import com.example.my_app_eight.databinding.FragmentMainBinding
+import com.example.my_app_eight.models.ProductPostRequest
+import com.example.my_app_eight.util.Holder
 import com.example.my_app_eight.util.ItemAdapter
 import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.transition.Hold
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 
 class MainFragment : Fragment() {
 
-    private lateinit var binding : FragmentMainBinding
+    private lateinit var binding: FragmentMainBinding
+    private lateinit var itemAdapter: ItemAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,12 +39,38 @@ class MainFragment : Fragment() {
         (requireActivity() as HomeActivity).showBtm()
         super.onViewCreated(view, savedInstanceState)
         setupRV()
+        showProduct()
+    }
+
+    private fun showProduct() {
+        val productAPI = RetrofitInstance.apiProduct
+        val token = Holder.access_token
+        val authHolder = "Bearer $token"
+
+        productAPI.getProducts(authHolder).enqueue(object : Callback<List<ProductPostRequest>> {
+            override fun onResponse(
+                call: Call<List<ProductPostRequest>>,
+                response: Response<List<ProductPostRequest>>
+            ) {
+                if (response.isSuccessful) {
+                    val products = response.body()
+                    if (products != null) {
+                        itemAdapter.setProducts(products)
+                    }
+                } else {
+                    // Handle error case
+                }
+            }
+            override fun onFailure(call: Call<List<ProductPostRequest>>, t: Throwable) {
+                // Handle error case
+            }
+        })
     }
 
     private fun setupRV() {
-        val adapter = ItemAdapter()
+        itemAdapter = ItemAdapter(mutableListOf())
         val recyclerView = binding.recyclerview
-        recyclerView.adapter = adapter
+        recyclerView.adapter = itemAdapter
         recyclerView.setHasFixedSize(true)
         recyclerView?.layoutManager = GridLayoutManager(requireContext(), 2)
     }

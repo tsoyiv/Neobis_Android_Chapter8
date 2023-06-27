@@ -12,6 +12,6 @@ interface ProductAPI {
         @Body product: ProductPostRequest
     ): Call<ProductResponse>
 
-    @GET("products/{id}")
-    fun getItem(@Path("itemId") itemId: Int): Call<ProductResponse>
+    @GET("products/")
+    fun getProducts(@Header("Authorization") token: String): Call<List<ProductPostRequest>>
 }

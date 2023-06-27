@@ -30,7 +30,7 @@ class FavoriteItemsFragment : Fragment() {
         returnToUserMenu()
     }
     private fun setupRV() {
-        val adapter = ItemAdapter()
+        val adapter = ItemAdapter(mutableListOf())
         val recyclerView = binding.recyclerview
         recyclerView.adapter = adapter
         recyclerView.setHasFixedSize(true)

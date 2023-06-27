@@ -8,9 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.my_app_eight.R
 import com.example.my_app_eight.models.ProductPostRequest
 
-class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ProductViewHolder>() {
-
-    private val productList: MutableList<ProductPostRequest> = mutableListOf()
+class ItemAdapter(private val productList: MutableList<ProductPostRequest>) : RecyclerView.Adapter<ItemAdapter.ProductViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.custom_item, parent, false)
@@ -41,5 +39,10 @@ class ItemAdapter : RecyclerView.Adapter<ItemAdapter.ProductViewHolder>() {
             priceTextView.text = product.price
 //            likedTextView.text = product.likeCount
         }
+    }
+    fun setProducts(products: List<ProductPostRequest>) {
+        productList.clear()
+        productList.addAll(products)
+        notifyDataSetChanged()
     }
 }
