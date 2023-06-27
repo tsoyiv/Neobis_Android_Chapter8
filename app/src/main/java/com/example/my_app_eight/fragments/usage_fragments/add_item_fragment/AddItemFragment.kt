@@ -18,6 +18,7 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
@@ -27,6 +28,7 @@ import com.example.my_app_eight.models.ProductPostRequest
 import com.example.my_app_eight.models.ProductResponse
 import com.example.my_app_eight.util.Holder
 import com.example.my_app_eight.util.Holder.selectedImageUri
+import com.example.my_app_eight.view_models.item_view_model.AddItemViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.custom_dialog_logout.view.*
 import retrofit2.Call
@@ -39,7 +41,8 @@ class AddItemFragment : Fragment() {
     private val PICK_IMAGE_REQUEST = 1
     private lateinit var addButton: ImageView
     private lateinit var imageContainer: ViewGroup
-    private var selectedImageUrl: Uri? = null
+    private var selectedImageFile: Uri? = null
+    private val viewModel: AddItemViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -58,35 +61,20 @@ class AddItemFragment : Fragment() {
     }
 
     private fun inputItem() {
-        val item = ProductPostRequest(
-            name = binding.editTextName.text.toString(),
-            price = binding.editTextPrice.text.toString(),
-            description = binding.editTextShortD.text.toString(),
-            photo = selectedImageUrl
-        )
-        postItemToServer(item)
-    }
+        val name = binding.editTextName.text.toString()
+        val price = binding.editTextPrice.text.toString()
+        val description = binding.editTextShortD.text.toString()
+        val photo = selectedImageFile
 
-    private fun postItemToServer(item: ProductPostRequest) {
-        val apiService = RetrofitInstance.apiProduct
+        viewModel.inputItem(name, price, description, photo)
 
-        val token = Holder.access_token
-        val authH = "Bearer $token"
-        apiService.addItem(authH, item).enqueue(object : Callback<ProductResponse> {
-            override fun onResponse(call: Call<ProductResponse>, response: Response<ProductResponse>) {
-                if (response.isSuccessful) {
-                    val addedItem = response.body()
-                    if (addedItem != null) {
-                        Toast.makeText(requireContext(), "product added", Toast.LENGTH_SHORT).show()
-                    }
-                } else {
-                    Toast.makeText(requireContext(), "failed to add item", Toast.LENGTH_SHORT).show()
-                }
+        viewModel.itemAddedSuccess.observe(viewLifecycleOwner) { isSuccess ->
+            if (isSuccess) {
+                Toast.makeText(requireContext(), "Product added", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "Failed to add item", Toast.LENGTH_SHORT).show()
             }
-            override fun onFailure(call: Call<ProductResponse>, t: Throwable) {
-                Toast.makeText(requireContext(), "failed to post, error happened", Toast.LENGTH_SHORT).show()
-            }
-        })
+        }
     }
 
     private fun callDialog() {
@@ -181,6 +169,7 @@ class AddItemFragment : Fragment() {
             imageView.clipToOutline = true // Add rounded corners
             imageContainer.addView(imageView)
 
+            // Store the image URI in the selectedImageUri variable
             selectedImageUri = imageUri
         }
     }
