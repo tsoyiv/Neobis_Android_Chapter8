@@ -9,9 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.databinding.FragmentMainBinding
-import com.example.my_app_eight.models.ProductResponse
 import com.example.my_app_eight.util.ItemAdapter
-import com.example.my_app_eight.util.RecyclerListener
 import com.example.my_app_eight.view_models.item_view_model.MainFragmentViewModel
 
 class MainFragment : Fragment() {
@@ -31,6 +29,7 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as HomeActivity).showBtm()
         super.onViewCreated(view, savedInstanceState)
+
         setupRV()
         showProduct()
     }

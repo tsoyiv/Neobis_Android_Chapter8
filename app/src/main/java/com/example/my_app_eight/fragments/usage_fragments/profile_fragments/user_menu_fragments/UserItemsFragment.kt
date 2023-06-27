@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.my_app_eight.R
@@ -17,6 +18,7 @@ import com.example.my_app_eight.util.Holder
 import com.example.my_app_eight.util.ItemAdapter
 import com.example.my_app_eight.util.RecyclerListener
 import com.example.my_app_eight.view_models.item_view_model.MainFragmentViewModel
+import com.example.my_app_eight.view_models.recycler_view_model.MyItemsRecViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.android.synthetic.main.bottom_dialog.view.*
 import retrofit2.Call
@@ -42,25 +44,7 @@ class UserItemsFragment : Fragment() {
         returnToUserMenu()
         setupRV()
         showProduct()
-        //isImageEmptyVisibility()
     }
-
-
-//    fun isImageEmptyVisibility() {
-//        val recyclerV = binding.recyclerview
-//        val imageEmpty = binding.imgEmptyUserItems
-//        val textEmpty = binding.txtEmptyUserItems
-//
-//        itemAdapter.notifyDataSetChanged()
-//
-//        if (recyclerV.adapter?.itemCount == 0) {
-//            imageEmpty.visibility = View.VISIBLE
-//            textEmpty.visibility = View.VISIBLE
-//        } else {
-//            imageEmpty.visibility = View.GONE
-//            textEmpty.visibility = View.GONE
-//        }
-//    }
 
     private fun showProduct() {
         viewModel.products.observe(viewLifecycleOwner) { products ->

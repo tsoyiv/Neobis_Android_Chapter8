@@ -7,10 +7,12 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.my_app_eight.R
+import com.example.my_app_eight.fragments.usage_fragments.profile_fragments.user_menu_fragments.UserItemsFragment
 import com.example.my_app_eight.models.ProductResponse
 import kotlinx.android.synthetic.main.custom_item.view.*
 
-class ItemAdapter(private val listener: RecyclerListener? = null, private val productList: MutableList<ProductResponse>) : RecyclerView.Adapter<ItemAdapter.ProductViewHolder>() {
+class ItemAdapter(private val listener: RecyclerListener? = null, private val productList: MutableList<ProductResponse>,
+) : RecyclerView.Adapter<ItemAdapter.ProductViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.custom_item, parent, false)
