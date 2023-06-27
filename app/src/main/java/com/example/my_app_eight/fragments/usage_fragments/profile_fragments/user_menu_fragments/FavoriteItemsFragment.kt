@@ -26,16 +26,16 @@ class FavoriteItemsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRV()
+        //setupRV()
         returnToUserMenu()
     }
-    private fun setupRV() {
-        val adapter = ItemAdapter(mutableListOf())
-        val recyclerView = binding.recyclerview
-        recyclerView.adapter = adapter
-        recyclerView.setHasFixedSize(true)
-        recyclerView?.layoutManager = GridLayoutManager(requireContext(), 2)
-    }
+//    private fun setupRV() {
+//        val adapter = ItemAdapter(mutableListOf())
+//        val recyclerView = binding.recyclerview
+//        recyclerView.adapter = adapter
+//        recyclerView.setHasFixedSize(true)
+//        recyclerView?.layoutManager = GridLayoutManager(requireContext(), 2)
+//    }
 
     private fun returnToUserMenu() {
         binding.btnReturnMenuPage.setOnClickListener {

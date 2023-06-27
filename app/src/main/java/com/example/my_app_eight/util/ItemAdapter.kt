@@ -3,13 +3,14 @@ package com.example.my_app_eight.util
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.my_app_eight.R
-import com.example.my_app_eight.models.ProductPostRequest
 import com.example.my_app_eight.models.ProductResponse
+import kotlinx.android.synthetic.main.custom_item.view.*
 
-class ItemAdapter(private val productList: MutableList<ProductResponse>) : RecyclerView.Adapter<ItemAdapter.ProductViewHolder>() {
+class ItemAdapter(private val listener: RecyclerListener? = null, private val productList: MutableList<ProductResponse>) : RecyclerView.Adapter<ItemAdapter.ProductViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.custom_item, parent, false)
@@ -19,6 +20,10 @@ class ItemAdapter(private val productList: MutableList<ProductResponse>) : Recyc
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = productList[position]
         holder.bind(product)
+
+        holder.itemView.three_dots_btn.setOnClickListener {
+            listener?.deleteShoe(product)
+        }
     }
 
     override fun getItemCount(): Int {

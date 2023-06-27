@@ -129,6 +129,9 @@
         <action
             android:id="@+id/action_userItemsFragment_to_profileMenuFragment2"
             app:destination="@id/profileMenuFragment2" />
+        <action
+            android:id="@+id/action_userItemsFragment_to_addItemFragment"
+            app:destination="@id/addItemFragment" />
     </fragment>
     <fragment
         android:id="@+id/addItemFragment"
