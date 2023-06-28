@@ -1,10 +1,16 @@
 package com.example.my_app_eight.fragments.usage_fragments.profile_fragments.user_menu_fragments
 
+import android.app.Dialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.FrameLayout
 import android.widget.Toast
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,7 +26,9 @@ import com.example.my_app_eight.util.ItemAdapter
 import com.example.my_app_eight.util.RecyclerListener
 import com.example.my_app_eight.view_models.item_view_model.MainFragmentViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.bottom_dialog.view.*
+import kotlinx.android.synthetic.main.custom_dialog_logout.view.*
 import kotlinx.android.synthetic.main.fragment_update.*
 import kotlinx.android.synthetic.main.fragment_update.view.*
 import retrofit2.Call
@@ -64,7 +72,7 @@ class UserItemsFragment : Fragment() {
             val dialogView = inflater.inflate(R.layout.bottom_dialog, null)
 
             dialogView.delete_item.setOnClickListener {
-                deleteShoe(item)
+                callDialog(item)
                 bottomSheetDialog.dismiss()
             }
             dialogView.txtBtn_editItem.setOnClickListener {
@@ -103,6 +111,52 @@ class UserItemsFragment : Fragment() {
                 // Handle error case
             }
         })
+    }
+    private fun callDialog(item : Int) {
+        val dialogBinding = layoutInflater.inflate(R.layout.custom_dialog_removeitem, null)
+
+        val myDialog = Dialog(requireContext())
+        myDialog.setContentView(dialogBinding)
+
+        myDialog.setCancelable(true)
+        myDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        myDialog.show()
+
+        dialogBinding.confirm_btn.setOnClickListener {
+            deleteShoe(item)
+            callSnackBarAndNavigate()
+            myDialog.dismiss()
+        }
+        dialogBinding.text_cancel.setOnClickListener {
+            myDialog.dismiss()
+        }
+    }
+    private fun callSnackBarAndNavigate() {
+        val snackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_SHORT)
+        val inflater = LayoutInflater.from(snackbar.context)
+        val customSnackbarLayout = inflater.inflate(R.layout.custom_snackbar_removeitem, null)
+
+        val snackbarView = snackbar.view
+        snackbarView.setBackgroundColor(Color.TRANSPARENT)
+
+        val layoutParams = snackbarView.layoutParams as CoordinatorLayout.LayoutParams
+        layoutParams.gravity = Gravity.TOP
+        snackbarView.layoutParams = layoutParams
+
+        val snackbarLayout = FrameLayout(requireContext())
+        val frameLayoutParams = FrameLayout.LayoutParams(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT
+        )
+        snackbarLayout.layoutParams = frameLayoutParams
+
+        snackbarLayout.addView(customSnackbarLayout)
+        (snackbarView as Snackbar.SnackbarLayout).addView(snackbarLayout, 0)
+        snackbar.show()
+
+        view?.postDelayed({
+            findNavController().navigate(R.id.action_userItemsFragment_to_mainFragment)
+        }, 500)
     }
 
     private fun setupRV() {
