@@ -132,6 +132,9 @@
         <action
             android:id="@+id/action_userItemsFragment_to_addItemFragment"
             app:destination="@id/addItemFragment" />
+        <action
+            android:id="@+id/action_userItemsFragment_to_updateFragment"
+            app:destination="@id/updateFragment" />
     </fragment>
     <fragment
         android:id="@+id/addItemFragment"
@@ -145,6 +148,11 @@
             android:id="@+id/action_addItemFragment_to_mainFragment2"
             app:destination="@id/mainFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/updateFragment"
+        android:name="com.example.my_app_eight.fragments.usage_fragments.item_setting_fragments.UpdateFragment"
+        android:label="fragment_update"
+        tools:layout="@layout/fragment_update" />
     <!--    <activity-->
 <!--        android:name="com.example.my_app_eight.HomeActivity"-->
 <!--        app:startDestination="@id/mainFragment" />-->

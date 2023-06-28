@@ -4,4 +4,5 @@ import com.example.my_app_eight.models.ProductResponse
 
 interface RecyclerListener {
     fun deleteProduct(productId: Int)
+    fun updateProduct(productId: Int, product: ProductResponse)
 }

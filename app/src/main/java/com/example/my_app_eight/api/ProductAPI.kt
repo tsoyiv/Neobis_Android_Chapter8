@@ -15,11 +15,15 @@ interface ProductAPI {
     @GET("products/")
     fun getProducts(@Header("Authorization") token: String): Call<List<ProductResponse>>
 
-//    @DELETE("products/{id}/")
-//    fun deleteProduct(
-//        @Header("Authorization") token: String,
-//        @Path("id") productId: ProductResponse
-//    ): Call<Void>
+    @GET("favorites/")
+    fun getFavoriteProducts(@Header("Authorization") token: String): Call<List<ProductResponse>>
+
+    @PUT("products/{id}")
+    fun updateProduct(
+        @Header("Authorization") token: String,
+        @Path("id") id: Int,
+        @Body product: ProductPostRequest
+    ): Call<ProductResponse>
 
     @DELETE("products/{id}/")
     fun deleteProduct(
