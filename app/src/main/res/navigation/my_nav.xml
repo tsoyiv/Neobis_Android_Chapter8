@@ -48,7 +48,11 @@
         android:id="@+id/mainFragment"
         android:name="com.example.my_app_eight.fragments.usage_fragments.MainFragment"
         android:label="fragment_main"
-        tools:layout="@layout/fragment_main" />
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/action_mainFragment_to_descFragment"
+            app:destination="@id/descFragment" />
+    </fragment>
     <fragment
         android:id="@+id/profileMenuFragment2"
         android:name="com.example.my_app_eight.fragments.usage_fragments.profile_fragments.profile_edit_fragments.ProfileMenuFragment"
@@ -138,6 +142,9 @@
         <action
             android:id="@+id/action_userItemsFragment_to_updateFragment"
             app:destination="@id/updateFragment" />
+        <action
+            android:id="@+id/action_userItemsFragment_to_descFragment"
+            app:destination="@id/descFragment" />
     </fragment>
     <fragment
         android:id="@+id/addItemFragment"
@@ -156,6 +163,21 @@
         android:name="com.example.my_app_eight.fragments.usage_fragments.item_setting_fragments.UpdateFragment"
         android:label="fragment_update"
         tools:layout="@layout/fragment_update" />
+    <fragment
+        android:id="@+id/descFragment"
+        android:name="com.example.my_app_eight.fragments.usage_fragments.item_setting_fragments.DescFragment"
+        android:label="fragment_desc"
+        tools:layout="@layout/fragment_desc" >
+        <action
+            android:id="@+id/action_descFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/action_descFragment_to_userItemsFragment"
+            app:destination="@id/userItemsFragment" />
+        <argument
+            android:name="itemDesc"
+            app:argType="com.example.my_app_eight.models.ProductResponse" />
+    </fragment>
     <!--    <activity-->
 <!--        android:name="com.example.my_app_eight.HomeActivity"-->
 <!--        app:startDestination="@id/mainFragment" />-->

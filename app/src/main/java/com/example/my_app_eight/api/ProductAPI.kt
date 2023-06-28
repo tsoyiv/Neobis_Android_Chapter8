@@ -49,4 +49,10 @@ interface ProductAPI {
         @Header("Authorization") token: String,
         @Path("id") productId: Int
     ): Call<Void>
+
+    @GET("products/{id}")
+    fun getProductDetails(
+        @Path("id") productId: Int,
+        @Header("Authorization") token: String
+    ): Call<ProductResponse>
 }
