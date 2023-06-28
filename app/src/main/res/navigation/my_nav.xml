@@ -120,6 +120,9 @@
         <action
             android:id="@+id/action_favoriteItemsFragment_to_profileMenuFragment2"
             app:destination="@id/profileMenuFragment2" />
+        <action
+            android:id="@+id/action_favoriteItemsFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/userItemsFragment"

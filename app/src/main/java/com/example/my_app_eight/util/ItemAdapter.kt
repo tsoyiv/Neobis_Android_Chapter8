@@ -4,10 +4,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.ToggleButton
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.NavHostFragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.my_app_eight.R
+import com.example.my_app_eight.fragments.usage_fragments.item_setting_fragments.UpdateFragment
+import com.example.my_app_eight.fragments.usage_fragments.profile_fragments.user_menu_fragments.UserItemsFragmentDirections
 import com.example.my_app_eight.models.ProductResponse
+import kotlinx.android.synthetic.main.bottom_dialog.view.*
 import kotlinx.android.synthetic.main.custom_item.view.*
+import kotlinx.android.synthetic.main.fragment_update.view.*
 
 class ItemAdapter(private val listener: RecyclerListener? = null, private val productList: MutableList<ProductResponse>,
 ) : RecyclerView.Adapter<ItemAdapter.ProductViewHolder>() {
@@ -23,7 +30,14 @@ class ItemAdapter(private val listener: RecyclerListener? = null, private val pr
 
         holder.itemView.three_dots_btn.setOnClickListener {
             listener?.deleteProduct(product.id)
+            //listener?.updateProduct(product.id, product)
         }
+        holder.itemView.liked_btn.setOnClickListener {
+            listener?.likeProduct(product.id)
+        }
+//        holder.itemView.liked_btn.setOnClickListener {
+//            listener?.unLike(product.id)
+//        }
     }
     override fun getItemCount(): Int {
         return productList.size

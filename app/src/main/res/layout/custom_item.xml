@@ -76,15 +76,17 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <ImageView
+        <ToggleButton
             android:id="@+id/liked_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="26dp"
+            android:layout_height="24dp"
             android:layout_marginStart="8dp"
-            android:layout_marginBottom="15dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/toggle_selector"
+            android:textOff=""
+            android:textOn=""
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:srcCompat="@drawable/ic_baseline_favorite_24" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <ImageView
             android:id="@+id/three_dots_btn"
