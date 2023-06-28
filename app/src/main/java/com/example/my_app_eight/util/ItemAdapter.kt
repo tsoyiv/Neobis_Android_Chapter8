@@ -16,7 +16,9 @@ import kotlinx.android.synthetic.main.bottom_dialog.view.*
 import kotlinx.android.synthetic.main.custom_item.view.*
 import kotlinx.android.synthetic.main.fragment_update.view.*
 
-class ItemAdapter(private val listener: RecyclerListener? = null, private val productList: MutableList<ProductResponse>,
+class ItemAdapter(
+    private val listener: RecyclerListener? = null,
+    private val productList: MutableList<ProductResponse>,
 ) : RecyclerView.Adapter<ItemAdapter.ProductViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
@@ -38,7 +40,22 @@ class ItemAdapter(private val listener: RecyclerListener? = null, private val pr
 //        holder.itemView.liked_btn.setOnClickListener {
 //            listener?.unLike(product.id)
 //        }
+//        Holder.access_token.apply {
+//            setOnItemClickListener {
+//                onItemClickListener?.let { it(product) }
+//            }
+//        }
+        holder.itemView.setOnClickListener {
+            onItemClickListener?.invoke(product)
+        }
     }
+
+    private var onItemClickListener: ((ProductResponse) -> Unit)? = null
+
+    fun setOnItemClickListener(listener: (ProductResponse) -> Unit) {
+        onItemClickListener = listener
+    }
+
     override fun getItemCount(): Int {
         return productList.size
     }
@@ -59,11 +76,13 @@ class ItemAdapter(private val listener: RecyclerListener? = null, private val pr
             likedTextView.text = product.like_count
         }
     }
+
     fun setProducts(products: List<ProductResponse>) {
         productList.clear()
         productList.addAll(products)
         notifyDataSetChanged()
     }
+
     fun deleteItem(position: Int) {
         if (position >= 0 && position < productList.size) {
             productList.removeAt(position)

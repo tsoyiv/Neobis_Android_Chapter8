@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.my_app_eight.HomeActivity
+import com.example.my_app_eight.R
 import com.example.my_app_eight.api.RetrofitInstance
 import com.example.my_app_eight.databinding.FragmentMainBinding
 import com.example.my_app_eight.models.FavoriteRequest
@@ -38,8 +40,21 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         (requireActivity() as HomeActivity).showBtm()
         super.onViewCreated(view, savedInstanceState)
-
         setupRV()
+
+
+        itemAdapter.setOnItemClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("product", it)
+            }
+            findNavController().navigate(R.id.action_mainFragment_to_descFragment, bundle)
+        }
+
+        itemAdapter.setOnItemClickListener { product ->
+            val action = MainFragmentDirections.actionMainFragmentToDescFragment(product)
+            findNavController().navigate(action)
+        }
+
         showProduct()
     }
 
