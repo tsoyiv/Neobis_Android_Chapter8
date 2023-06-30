@@ -42,7 +42,6 @@ class MainFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         setupRV()
 
-
         itemAdapter.setOnItemClickListener {
             val bundle = Bundle().apply {
                 putSerializable("product", it)
@@ -72,18 +71,15 @@ class MainFragment : Fragment() {
             TODO("Not yet implemented")
         }
 
-//        override fun updateProduct(productId: Int, product: ProductResponse) {
-//            TODO("Not yet implemented")
-//        }
+        override fun updateProduct(productId: Int, product: ProductResponse) {
+            TODO("Not yet implemented")
+        }
 
         override fun likeProduct(productId: Int) {
             logicToAddFave(productId)
         }
-
-//        override fun unLike(productId: Int) {
-//            //unlike(productId)
-//        }
     }
+
     private fun unlike(item: Int) {
         val productAPI = RetrofitInstance.apiProduct
         val token = Holder.access_token
@@ -114,11 +110,20 @@ class MainFragment : Fragment() {
         api.addToFavorites(authHolder, favoriteRequest).enqueue(object : Callback<Unit> {
             override fun onResponse(call: Call<Unit>, response: Response<Unit>) {
                 if (response.isSuccessful) {
-                   Toast.makeText(requireContext(), "Product added to favorite products", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "Product added to favorite products",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 } else {
-                    Toast.makeText(requireContext(), "You have already added product to favorite", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(
+                        requireContext(),
+                        "You have already added product to favorite",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
+
             override fun onFailure(call: Call<Unit>, t: Throwable) {
             }
         })
