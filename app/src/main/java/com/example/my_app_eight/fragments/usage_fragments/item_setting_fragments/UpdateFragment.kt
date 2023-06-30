@@ -99,8 +99,8 @@ class UpdateFragment : Fragment() {
         val apiService = RetrofitInstance.apiProduct
 
         val updatedProduct = ProductPostRequest(
-            updateText_price.text.toString(),
             updateText_name.text.toString(),
+            updateText_price.text.toString(),
             updateText_shortD.text.toString(),
             updatedProductImages
         )
@@ -124,13 +124,6 @@ class UpdateFragment : Fragment() {
                 }
             })
     }
-
-    private fun updateUI(product: ProductResponse) {
-        binding.updateTextPrice.text = SpannableStringBuilder(product.price)
-        binding.updateTextName.text = SpannableStringBuilder(product.name)
-        binding.updateTextShortD.text = SpannableStringBuilder(product.description)
-    }
-
     private fun setUI(product: ProductResponse) {
         binding.updateTextPrice.setText(product.price)
         binding.updateTextName.setText(product.name)
