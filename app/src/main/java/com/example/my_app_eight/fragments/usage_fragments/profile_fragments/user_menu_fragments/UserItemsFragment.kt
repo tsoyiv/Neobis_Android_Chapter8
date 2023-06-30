@@ -18,19 +18,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.my_app_eight.R
 import com.example.my_app_eight.api.RetrofitInstance
 import com.example.my_app_eight.databinding.FragmentUserItemsBinding
-import com.example.my_app_eight.models.FavoriteRequest
-import com.example.my_app_eight.models.ProductPostRequest
 import com.example.my_app_eight.models.ProductResponse
-import com.example.my_app_eight.util.Holder
-import com.example.my_app_eight.util.ItemAdapter
-import com.example.my_app_eight.util.RecyclerListener
+import com.example.my_app_eight.util.*
 import com.example.my_app_eight.view_models.item_view_model.MainFragmentViewModel
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.bottom_dialog.view.*
 import kotlinx.android.synthetic.main.custom_dialog_logout.view.*
-import kotlinx.android.synthetic.main.fragment_update.*
-import kotlinx.android.synthetic.main.fragment_update.view.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -65,34 +59,37 @@ class UserItemsFragment : Fragment() {
         viewModel.fetchProducts()
     }
 
+
     private val listener = object : RecyclerListener {
         override fun deleteProduct(item: Int) {
+        }
+
+        override fun updateProduct(productId: Int, product: ProductResponse) {
             val bottomSheetDialog = BottomSheetDialog(requireContext())
             val inflater = layoutInflater
             val dialogView = inflater.inflate(R.layout.bottom_dialog, null)
 
             dialogView.delete_item.setOnClickListener {
-                callDialog(item)
+                callDialog(productId)
                 bottomSheetDialog.dismiss()
             }
+
             dialogView.txtBtn_editItem.setOnClickListener {
-                findNavController().navigate(R.id.action_userItemsFragment_to_addItemFragment)
+                val bundle = Bundle()
+                bundle.putInt("productId", productId)
+                val action = UserItemsFragmentDirections.actionUserItemsFragmentToUpdateFragment(product)
+                findNavController().navigate(action)
                 bottomSheetDialog.dismiss()
             }
             bottomSheetDialog.setContentView(dialogView)
             bottomSheetDialog.show()
         }
 
-//        override fun updateProduct(productId: Int, product: ProductResponse) {
-//            TODO("Not yet implemented")
-//        }
-
         override fun likeProduct(productId: Int) {
-            TODO("Not yet implemented")
         }
     }
 
-    fun deleteShoe(item: Int) {
+    fun deleteProduct(item: Int) {
         val productAPI = RetrofitInstance.apiProduct
         val token = Holder.access_token
         val authHolder = "Bearer $token"
@@ -123,7 +120,7 @@ class UserItemsFragment : Fragment() {
         myDialog.show()
 
         dialogBinding.confirm_btn.setOnClickListener {
-            deleteShoe(item)
+            deleteProduct(item)
             callSnackBarAndNavigate()
             myDialog.dismiss()
         }
