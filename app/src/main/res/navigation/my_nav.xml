@@ -136,9 +136,9 @@
         <action
             android:id="@+id/action_userItemsFragment_to_profileMenuFragment2"
             app:destination="@id/profileMenuFragment2" />
-        <action
-            android:id="@+id/action_userItemsFragment_to_addItemFragment"
-            app:destination="@id/addItemFragment" />
+<!--        <action-->
+<!--            android:id="@+id/action_userItemsFragment_to_addItemFragment"-->
+<!--            app:destination="@id/addItemFragment" />-->
         <action
             android:id="@+id/action_userItemsFragment_to_updateFragment"
             app:destination="@id/updateFragment" />
@@ -165,7 +165,14 @@
         android:id="@+id/updateFragment"
         android:name="com.example.my_app_eight.fragments.usage_fragments.item_setting_fragments.UpdateFragment"
         android:label="fragment_update"
-        tools:layout="@layout/fragment_update" />
+        tools:layout="@layout/fragment_update" >
+        <argument
+            android:name="updateArgs"
+            app:argType="com.example.my_app_eight.models.ProductResponse" />
+        <action
+            android:id="@+id/action_updateFragment_to_userItemsFragment"
+            app:destination="@id/userItemsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/descFragment"
         android:name="com.example.my_app_eight.fragments.usage_fragments.item_setting_fragments.DescFragment"

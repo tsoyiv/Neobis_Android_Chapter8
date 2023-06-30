@@ -4,6 +4,8 @@ import com.example.my_app_eight.models.FavoriteRequest
 import com.example.my_app_eight.models.FavoriteResponse
 import com.example.my_app_eight.models.ProductPostRequest
 import com.example.my_app_eight.models.ProductResponse
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
@@ -15,12 +17,22 @@ interface ProductAPI {
         @Body product: ProductPostRequest
     ): Call<ProductResponse>
 
+//    @POST("products/")
+//    fun addItem(
+//        @Header("Authorization") token: String,
+//        @Part("name") name: ProductPostRequest,
+//        @Part("price") price: RequestBody,
+//        @Part("description") description: RequestBody,
+//        @Part("photo") photo: MultipartBody.Part,
+//        @Body product: ProductPostRequest
+//    ): Call<ProductResponse>
+
     @GET("products/")
     fun getProducts(
         @Header("Authorization") token: String
     ): Call<List<ProductResponse>>
 
-    @PUT("products/{id}")
+    @PUT("products/{id}/")
     fun updateProduct(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
@@ -50,7 +62,7 @@ interface ProductAPI {
         @Path("id") productId: Int
     ): Call<Void>
 
-    @GET("products/{id}")
+    @GET("products/{id}/")
     fun getProductDetails(
         @Path("id") productId: Int,
         @Header("Authorization") token: String
