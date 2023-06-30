@@ -66,17 +66,13 @@ class FavoriteItemsFragment : Fragment() {
             TODO("Not yet implemented")
         }
 
-//        override fun updateProduct(productId: Int, product: ProductResponse) {
-//            TODO("Not yet implemented")
-//        }
+        override fun updateProduct(productId: Int, product: ProductResponse) {
+            TODO("Not yet implemented")
+        }
 
         override fun likeProduct(productId: Int) {
             TODO("Not yet implemented")
         }
-
-//        override fun unLike(productId: Int) {
-//            TODO("Not yet implemented")
-//        }
     }
 
     private fun setupRV() {

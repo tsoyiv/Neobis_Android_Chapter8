@@ -32,19 +32,11 @@ class ItemAdapter(
 
         holder.itemView.three_dots_btn.setOnClickListener {
             listener?.deleteProduct(product.id)
-            //listener?.updateProduct(product.id, product)
+            listener?.updateProduct(product.id, product)
         }
         holder.itemView.liked_btn.setOnClickListener {
             listener?.likeProduct(product.id)
         }
-//        holder.itemView.liked_btn.setOnClickListener {
-//            listener?.unLike(product.id)
-//        }
-//        Holder.access_token.apply {
-//            setOnItemClickListener {
-//                onItemClickListener?.let { it(product) }
-//            }
-//        }
         holder.itemView.setOnClickListener {
             onItemClickListener?.invoke(product)
         }
