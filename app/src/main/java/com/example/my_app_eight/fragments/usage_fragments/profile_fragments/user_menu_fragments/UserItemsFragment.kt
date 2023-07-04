@@ -54,6 +54,10 @@ class UserItemsFragment : Fragment() {
         viewModel.products.observe(viewLifecycleOwner) { products ->
             if (products != null) {
                 itemAdapter.setProducts(products)
+
+                val isEmpty = products.isEmpty()
+                binding.imgEmptyUserItems.visibility = if (isEmpty) View.VISIBLE else View.GONE
+                binding.txtEmptyUserItems.visibility = if (isEmpty) View.VISIBLE else View.GONE
             }
         }
         viewModel.fetchProducts()
@@ -77,7 +81,8 @@ class UserItemsFragment : Fragment() {
             dialogView.txtBtn_editItem.setOnClickListener {
                 val bundle = Bundle()
                 bundle.putInt("productId", productId)
-                val action = UserItemsFragmentDirections.actionUserItemsFragmentToUpdateFragment(product)
+                val action =
+                    UserItemsFragmentDirections.actionUserItemsFragmentToUpdateFragment(product)
                 findNavController().navigate(action)
                 bottomSheetDialog.dismiss()
             }
@@ -109,7 +114,8 @@ class UserItemsFragment : Fragment() {
             }
         })
     }
-    private fun callDialog(item : Int) {
+
+    private fun callDialog(item: Int) {
         val dialogBinding = layoutInflater.inflate(R.layout.custom_dialog_removeitem, null)
 
         val myDialog = Dialog(requireContext())
@@ -128,6 +134,7 @@ class UserItemsFragment : Fragment() {
             myDialog.dismiss()
         }
     }
+
     private fun callSnackBarAndNavigate() {
         val snackbar = Snackbar.make(binding.root, "", Snackbar.LENGTH_SHORT)
         val inflater = LayoutInflater.from(snackbar.context)

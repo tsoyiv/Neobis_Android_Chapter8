@@ -4,17 +4,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.ToggleButton
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment.findNavController
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.example.my_app_eight.R
-import com.example.my_app_eight.fragments.usage_fragments.item_setting_fragments.UpdateFragment
-import com.example.my_app_eight.fragments.usage_fragments.profile_fragments.user_menu_fragments.UserItemsFragmentDirections
 import com.example.my_app_eight.models.ProductResponse
-import kotlinx.android.synthetic.main.bottom_dialog.view.*
 import kotlinx.android.synthetic.main.custom_item.view.*
-import kotlinx.android.synthetic.main.fragment_update.view.*
 
 class ItemAdapter(
     private val listener: RecyclerListener? = null,
@@ -69,10 +63,46 @@ class ItemAdapter(
         }
     }
 
+    fun updateProducts(products: List<ProductResponse>) {
+        val diffCallback = ProductDiffCallback(productList, products)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+
+        productList.clear()
+        productList.addAll(products)
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+
     fun setProducts(products: List<ProductResponse>) {
         productList.clear()
         productList.addAll(products)
         notifyDataSetChanged()
+    }
+
+    class ProductDiffCallback(
+        private val oldList: List<ProductResponse>,
+        private val newList: List<ProductResponse>
+    ) : DiffUtil.Callback() {
+
+        override fun getOldListSize(): Int {
+            return oldList.size
+        }
+
+        override fun getNewListSize(): Int {
+            return newList.size
+        }
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldProduct = oldList[oldItemPosition]
+            val newProduct = newList[newItemPosition]
+            return oldProduct.id == newProduct.id
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            val oldProduct = oldList[oldItemPosition]
+            val newProduct = newList[newItemPosition]
+            return oldProduct == newProduct
+        }
     }
 
     fun deleteItem(position: Int) {
