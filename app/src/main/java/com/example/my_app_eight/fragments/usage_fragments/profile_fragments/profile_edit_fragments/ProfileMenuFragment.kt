@@ -10,11 +10,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileMenuBinding
 import com.example.my_app_eight.util.Holder
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.custom_dialog_logout.view.*
+import kotlinx.android.synthetic.main.fragment_profile_edit.view.*
 
 class ProfileMenuFragment : Fragment() {
 
@@ -36,6 +39,16 @@ class ProfileMenuFragment : Fragment() {
         logOut()
         toLikedPage()
         toUserItem()
+        imageProfile()
+    }
+
+    private fun imageProfile() {
+        val cardView = binding.profileImgMenu
+        Holder.selectedImageUri?.let { selectImg ->
+            Glide.with(requireContext())
+                .load(selectImg)
+                .into(cardView)
+        }
     }
 
     private fun toUserItem() {

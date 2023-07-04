@@ -3,22 +3,23 @@ package com.example.my_app_eight.fragments.usage_fragments.profile_fragments.pro
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.my_app_eight.R
 import com.example.my_app_eight.databinding.FragmentProfileEditBinding
 import com.example.my_app_eight.models.UserDataRequest
 import com.example.my_app_eight.util.Holder
+import com.example.my_app_eight.util.Holder.selectedImageUri
 import com.example.my_app_eight.view_models.profile_view_models.ProfileDataViewModel
 import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
 import java.util.*
@@ -29,7 +30,6 @@ class ProfileEditFragment : Fragment() {
     private val vm: ProfileDataViewModel by activityViewModels()
     private val vmH : HolderViewModel by activityViewModels()
     private val PICK_IMAGE_REQUEST = 1
-    private lateinit var profileImageView: ImageView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -65,14 +65,13 @@ class ProfileEditFragment : Fragment() {
             binding.editTextName.text.toString(),
             binding.editTextSurname.text.toString(),
             binding.editTextNickname.text.toString(),
-            binding.editTextBirthday.text.toString()
+            binding.editTextBirthday.text.toString(),
         )
         vm.updateUser(accessToken, userInfo)
-
         vm.updateResult.observe(viewLifecycleOwner) { isSuccess ->
             if (isSuccess) {
                 Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_profileEditFragment_to_profileMenuFragment22)
+                findNavController().navigate(R.id.action_profileEditFragment_to_profileMenuFragment2)
             } else {
                 Toast.makeText(requireContext(), "The user was not updated", Toast.LENGTH_SHORT)
                     .show()
@@ -81,28 +80,24 @@ class ProfileEditFragment : Fragment() {
     }
 
     private fun callGallery() {
-        val txt_img_req = binding.chooseImg
+        val txt_img_req = binding.profileImg
         txt_img_req.setOnClickListener {
-            openGallery()
+            pickImage()
         }
     }
 
-    private fun openGallery() {
-        val intent = Intent()
-        intent.action = Intent.ACTION_GET_CONTENT
-        //val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+    private fun pickImage() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         intent.type = "image/*"
-        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        startActivityForResult(Intent.createChooser(intent, "Select Picture"), PICK_IMAGE_REQUEST)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
-        profileImageView = binding.profileImg
-
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
-            val selectedImageUri: Uri? = data.data
-            profileImageView.setImageURI(selectedImageUri)
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+            selectedImageUri = data.data
+            Holder.selectedImageUri = selectedImageUri
+            Glide.with(this).load(selectedImageUri).into(binding.profileImg)
         }
     }
 
