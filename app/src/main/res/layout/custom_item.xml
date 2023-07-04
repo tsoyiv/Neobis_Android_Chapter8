@@ -17,10 +17,11 @@
 
         <TextView
             android:id="@+id/name_of_item"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
             android:layout_marginTop="4dp"
+            android:layout_marginEnd="8dp"
             android:text="BMW M4 Coupe: A Two-Door"
             android:textColor="#000000"
             app:layout_constraintBaseline_toBottomOf="parent"

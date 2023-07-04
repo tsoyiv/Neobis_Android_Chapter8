@@ -1,9 +1,4 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
     <solid android:color="#FFFFFF" /> <!-- Set the desired background color (white in this case) -->
-    <corners android:radius="90dp" /> <!-- Set the desired corner radius (8dp in this case) -->
-    <padding
-        android:left="4dp"
-        android:top="4dp"
-        android:right="4dp"
-        android:bottom="4dp" /> <!-- Set the desired padding for the content inside the EditText -->
+    <corners android:radius="20dp" /> <!-- Set the desired corner radius (8dp in this case) -->
 </shape>

@@ -75,6 +75,7 @@ class DescFragment : Fragment() {
         binding.itemPrice.text = product.price
         binding.numbOfLike.text = product.like_count
         binding.nameOfItem.text = product.name
-        binding.shortDesc.text = product.description
+        binding.shortDesc.text = product.short_description
+        binding.fullDesc.text = product.full_description
     }
 }

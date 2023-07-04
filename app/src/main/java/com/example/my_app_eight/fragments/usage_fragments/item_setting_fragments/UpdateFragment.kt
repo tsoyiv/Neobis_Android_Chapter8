@@ -1,7 +1,6 @@
 package com.example.my_app_eight.fragments.usage_fragments.item_setting_fragments
 
 import android.os.Bundle
-import android.text.SpannableStringBuilder
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,7 +41,7 @@ class UpdateFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         product = args.updateArgs
-        setUI(product)
+        setPrevInfoAboutProduct(product)
 
         cancelBtn()
         updateItem()
@@ -102,6 +101,7 @@ class UpdateFragment : Fragment() {
             updateText_name.text.toString(),
             updateText_price.text.toString(),
             updateText_shortD.text.toString(),
+            updateText_longD.text.toString(),
             updatedProductImages
         )
         apiService.updateProduct(token, item, updatedProduct)
@@ -124,9 +124,11 @@ class UpdateFragment : Fragment() {
                 }
             })
     }
-    private fun setUI(product: ProductResponse) {
+
+    private fun setPrevInfoAboutProduct(product: ProductResponse) {
         binding.updateTextPrice.setText(product.price)
         binding.updateTextName.setText(product.name)
-        binding.updateTextShortD.setText(product.description)
+        binding.updateTextShortD.setText(product.short_description)
+        binding.updateTextLongD.setText(product.full_description)
     }
 }

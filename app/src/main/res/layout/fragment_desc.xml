@@ -75,10 +75,11 @@
 
         <TextView
             android:id="@+id/name_of_item"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"
+            android:layout_marginHorizontal="20dp"
             android:text="Имя товара"
             android:textSize="18sp"
             android:textColor="#494949"
@@ -87,9 +88,10 @@
 
         <TextView
             android:id="@+id/shortDesc"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             android:layout_marginTop="12dp"
             android:text="Краткое описание"
             app:layout_constraintStart_toStartOf="parent"
@@ -109,11 +111,12 @@
 
         <TextView
             android:id="@+id/full_desc"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
             android:layout_marginTop="12dp"
             android:text="Детальное описание"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/detail_desc" />
 
