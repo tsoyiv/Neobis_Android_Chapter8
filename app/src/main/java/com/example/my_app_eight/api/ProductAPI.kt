@@ -7,7 +7,6 @@ import com.example.my_app_eight.models.ProductResponse
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import retrofit2.Call
-import retrofit2.Response
 import retrofit2.http.*
 
 interface ProductAPI {
@@ -17,15 +16,16 @@ interface ProductAPI {
         @Body product: ProductPostRequest
     ): Call<ProductResponse>
 
-//    @POST("products/")
-//    fun addItem(
-//        @Header("Authorization") token: String,
-//        @Part("name") name: ProductPostRequest,
-//        @Part("price") price: RequestBody,
-//        @Part("description") description: RequestBody,
-//        @Part("photo") photo: MultipartBody.Part,
-//        @Body product: ProductPostRequest
-//    ): Call<ProductResponse>
+    @Multipart
+    @POST("products/")
+    fun productCreate(
+        @Header("Authorization") token: String,
+        @Part("name") name: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("full_description") fullDescription: RequestBody,
+        @Part("short_description") shortDescription: RequestBody,
+        @Part photo: List<MultipartBody.Part>
+    ): Call<ProductResponse>
 
     @GET("products/")
     fun getProducts(
