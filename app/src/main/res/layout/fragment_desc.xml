@@ -18,8 +18,8 @@
 
             <ImageView
                 android:id="@+id/img_desc"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="360dp"
+                android:layout_height="300dp"
                 android:layout_gravity="center_horizontal"
                 android:src="@drawable/carrtest"
                 app:layout_constraintEnd_toEndOf="parent"

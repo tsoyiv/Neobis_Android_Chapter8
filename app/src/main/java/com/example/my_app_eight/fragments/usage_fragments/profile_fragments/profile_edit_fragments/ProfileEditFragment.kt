@@ -20,6 +20,7 @@ import com.example.my_app_eight.databinding.FragmentProfileEditBinding
 import com.example.my_app_eight.models.UserDataRequest
 import com.example.my_app_eight.util.Holder
 import com.example.my_app_eight.util.Holder.selectedImageUri
+import com.example.my_app_eight.util.ImageConverter
 import com.example.my_app_eight.view_models.profile_view_models.ProfileDataViewModel
 import com.example.my_app_eight.view_models.reg_view_model.HolderViewModel
 import java.util.*
@@ -34,8 +35,7 @@ class ProfileEditFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
         binding = FragmentProfileEditBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -50,33 +50,65 @@ class ProfileEditFragment : Fragment() {
         pickDate()
         returnToProfileInfo()
         saveEdit()
+        checkUpdating()
+        imageProfile()
+    }
+
+    private fun imageProfile() {
+        val cardView = binding.profileImg
+        Holder.selectedImageUri?.let { selectImg ->
+            Glide.with(requireContext())
+                .load(selectImg)
+                .into(cardView)
+        }
     }
 
     private fun saveEdit() {
         binding.btnReady.setOnClickListener {
-            updateUser()
+            updateItem()
         }
     }
 
-    private fun updateUser() {
-        val accessToken = Holder.access_token
+    private fun updateItem() {
+        val first_name = binding.editTextName.text.toString()
+        val last_name = binding.editTextSurname.text.toString()
+        val username = binding.editTextNickname.text.toString()
+        val date = binding.editTextBirthday.text.toString()
 
-        val userInfo = UserDataRequest(
-            binding.editTextName.text.toString(),
-            binding.editTextSurname.text.toString(),
-            binding.editTextNickname.text.toString(),
-            binding.editTextBirthday.text.toString(),
-        )
-        vm.updateUser(accessToken, userInfo)
-        vm.updateResult.observe(viewLifecycleOwner) { isSuccess ->
-            if (isSuccess) {
-                Toast.makeText(requireContext(), "Updated", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_profileEditFragment_to_profileMenuFragment2)
+        val token = Holder.access_token
+        val authHeader = "Bearer $token"
+
+        selectedImageUri?.let { imageUri ->
+            val imageFile = ImageConverter.getFile(requireContext(), imageUri)
+            if (imageFile != null) {
+
+                vm.inputItem(
+                    requireContext(),
+                    token = authHeader,
+                    first_name = first_name,
+                    last_name = last_name,
+                    username = username,
+                    date_of_birth = date,
+                    imageUri = imageUri
+                )
             } else {
-                Toast.makeText(requireContext(), "The user was not updated", Toast.LENGTH_SHORT)
+                Toast.makeText(requireContext(), "Error converting image", Toast.LENGTH_SHORT)
                     .show()
             }
+        } ?: run {
+            Toast.makeText(requireContext(), "Please select an image", Toast.LENGTH_SHORT).show()
         }
+    }
+
+    private fun checkUpdating() {
+        vm.itemUpdatedSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer { success ->
+            if (success) {
+                Toast.makeText(requireContext(), "Product Updated successfully", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                Toast.makeText(requireContext(), "Failed to add product", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun callGallery() {

@@ -1,20 +1,24 @@
 package com.example.my_app_eight.api
 
-import com.example.my_app_eight.models.SendVerificationCodeRequest
-import com.example.my_app_eight.models.UserDataRequest
-import com.example.my_app_eight.models.VerificationCodeResponse
-import com.example.my_app_eight.models.VerifyCodeRequest
+import com.example.my_app_eight.models.*
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Response
 import retrofit2.http.*
 
 interface UserDataAPI {
+    @Multipart
     @PUT("profile/")
-    suspend fun updateUserInfo(
+    fun updateUserInfo(
         @Header("Authorization") token: String,
-        @Body userInfo: UserDataRequest
-    ): Response<Any>
+        @Part("first_name") firstName: RequestBody,
+        @Part("last_name") lastName: RequestBody,
+        @Part("username") username: RequestBody,
+        @Part("date_of_birth") dateOfBirth: RequestBody,
+        @Part photo: List<MultipartBody.Part>
+    ): Call<Any>
 
     @PUT("send_verification_code/")
     fun sendVerificationCode(
