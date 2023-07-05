@@ -130,7 +130,7 @@ class MainFragment : Fragment() {
     }
 
     private fun setupRV() {
-        itemAdapter = ItemAdapter(listener, mutableListOf())
+        itemAdapter = ItemAdapter(null, mutableListOf())
         val recyclerView = binding.recyclerview
         recyclerView.adapter = itemAdapter
         recyclerView.setHasFixedSize(true)

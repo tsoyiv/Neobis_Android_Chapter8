@@ -10,12 +10,6 @@ import retrofit2.Call
 import retrofit2.http.*
 
 interface ProductAPI {
-    @POST("products/")
-    fun addItem(
-        @Header("Authorization") token: String,
-        @Body product: ProductPostRequest
-    ): Call<ProductResponse>
-
     @Multipart
     @POST("products/")
     fun productCreate(
@@ -32,11 +26,16 @@ interface ProductAPI {
         @Header("Authorization") token: String
     ): Call<List<ProductResponse>>
 
+    @Multipart
     @PUT("products/{id}/")
     fun updateProduct(
         @Header("Authorization") token: String,
         @Path("id") id: Int,
-        @Body product: ProductPostRequest
+        @Part("name") name: RequestBody,
+        @Part("price") price: RequestBody,
+        @Part("full_description") fullDescription: RequestBody,
+        @Part("short_description") shortDescription: RequestBody,
+        @Part photo: List<MultipartBody.Part>
     ): Call<ProductResponse>
 
     @DELETE("products/{id}/")

@@ -37,7 +37,7 @@ import java.io.File
 class AddItemFragment : Fragment() {
 
     companion object {
-        private const val REQUEST_IMAGE_PICKER = 100
+        const val REQUEST_IMAGE_PICKER = 100
     }
 
     private lateinit var binding: FragmentAddItemBinding

@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.my_app_eight.R
 import com.example.my_app_eight.api.RetrofitInstance
 import com.example.my_app_eight.databinding.FragmentUserItemsBinding
+import com.example.my_app_eight.fragments.usage_fragments.MainFragmentDirections
 import com.example.my_app_eight.models.ProductResponse
 import com.example.my_app_eight.util.*
 import com.example.my_app_eight.view_models.item_view_model.MainFragmentViewModel
@@ -48,6 +49,19 @@ class UserItemsFragment : Fragment() {
         returnToUserMenu()
         setupRV()
         showProduct()
+
+        itemAdapter.setOnItemClickListener {
+            val bundle = Bundle().apply {
+                putSerializable("product", it)
+            }
+            findNavController().navigate(R.id.action_userItemsFragment_to_descFragment, bundle)
+        }
+
+        itemAdapter.setOnItemClickListener { product ->
+            val action = UserItemsFragmentDirections.actionUserItemsFragmentToDescFragment(product)
+            findNavController().navigate(action)
+        }
+
     }
 
     private fun showProduct() {

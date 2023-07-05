@@ -17,13 +17,14 @@ import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
 
-class AddItemViewModel : ViewModel() {
+class UpdateViewModel : ViewModel() {
     private val _itemAddedSuccess = MutableLiveData<Boolean>()
     val itemAddedSuccess: LiveData<Boolean> = _itemAddedSuccess
 
     fun inputItem(
         context: Context,
         token: String,
+        id: Int,
         name: String,
         price: String,
         short_description: String,
@@ -42,8 +43,9 @@ class AddItemViewModel : ViewModel() {
             val imagePart = prepareImagePart(imageFile)
             val imageParts = listOf(imagePart)
 
-            apiInterface.productCreate(
+            apiInterface.updateProduct(
                 token = token,
+                id = id,
                 name = nameRequest,
                 price = priceRequest,
                 fullDescription = fullDescriptionRequest,

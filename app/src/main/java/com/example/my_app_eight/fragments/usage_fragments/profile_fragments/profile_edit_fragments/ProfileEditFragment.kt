@@ -103,10 +103,10 @@ class ProfileEditFragment : Fragment() {
     private fun checkUpdating() {
         vm.itemUpdatedSuccess.observe(viewLifecycleOwner, androidx.lifecycle.Observer { success ->
             if (success) {
-                Toast.makeText(requireContext(), "Product Updated successfully", Toast.LENGTH_SHORT)
+                Toast.makeText(requireContext(), "User Updated successfully", Toast.LENGTH_SHORT)
                     .show()
             } else {
-                Toast.makeText(requireContext(), "Failed to add product", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Failed to update profile", Toast.LENGTH_SHORT).show()
             }
         })
     }
