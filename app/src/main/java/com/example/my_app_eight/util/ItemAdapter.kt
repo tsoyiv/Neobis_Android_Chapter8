@@ -3,9 +3,11 @@ package com.example.my_app_eight.util
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.my_app_eight.R
 import com.example.my_app_eight.models.ProductResponse
 import kotlinx.android.synthetic.main.custom_item.view.*
@@ -55,11 +57,18 @@ class ItemAdapter(
         private val nameTextView: TextView = itemView.findViewById(R.id.name_of_item)
         private val priceTextView: TextView = itemView.findViewById(R.id.price_of_item)
         private val likedTextView: TextView = itemView.findViewById(R.id.amount_liked)
+        private val imageView: ImageView = itemView.findViewById(R.id.image_on_item)
 
         fun bind(product: ProductResponse) {
             nameTextView.text = product.name
             priceTextView.text = product.price
             likedTextView.text = product.like_count
+            if (!product.photo.isNullOrEmpty()) {
+                Glide.with(imageView)
+                    .load(product.photo)
+                    .centerCrop()
+                    .into(imageView)
+            }
         }
     }
 

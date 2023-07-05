@@ -19,6 +19,7 @@ import android.widget.Toast
 import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import com.example.my_app_eight.HomeActivity
 import com.example.my_app_eight.R
@@ -68,11 +69,110 @@ class AddItemFragment : Fragment() {
         //setupPhoto()
         callGallery()
         cancelBtn()
-        saveItem()
+        //saveItem()
         binding.btnReadyAddItem.setOnClickListener {
             createProduct()
         }
+        viewModel.itemAddedSuccess.observe(viewLifecycleOwner, Observer { success ->
+            if (success) {
+                Toast.makeText(requireContext(), "Product added successfully", Toast.LENGTH_SHORT)
+                    .show()
+                findNavController().navigate(R.id.mainFragment)
+            } else {
+                Toast.makeText(requireContext(), "Failed to add product", Toast.LENGTH_SHORT).show()
+                findNavController().navigate(R.id.mainFragment)
+            }
+        })
     }
+
+    private fun createProduct() {
+        val name = binding.editTextName.text.toString()
+        val price = binding.editTextPrice.text.toString()
+        val shortDescription = binding.editTextShortD.text.toString()
+        val fullDescription = binding.editTextLongD.text.toString()
+
+        val token = Holder.access_token
+        val authHeader = "Bearer $token"
+
+        selectedImageUri?.let { imageUri ->
+            val imageFile = ImageConverter.getFile(requireContext(), imageUri)
+            if (imageFile != null) {
+                val imagePart = prepareImagePart(imageFile)
+                val imageParts = listOf(imagePart)
+
+                viewModel.inputItem(
+                    requireContext(),
+                    token = authHeader,
+                    name = name,
+                    price = price,
+                    short_description = shortDescription,
+                    full_description = fullDescription,
+                    imageUri = imageUri
+                )
+            } else {
+                Toast.makeText(requireContext(), "Error converting image", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        } ?: run {
+            Toast.makeText(requireContext(), "Please select an image", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    private fun prepareImagePart(imageFile: File): MultipartBody.Part {
+        val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+        return MultipartBody.Part.createFormData("photo", imageFile.name, requestFile)
+    }
+
+    private fun openImagePicker() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(intent, REQUEST_IMAGE_PICKER)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_IMAGE_PICKER && resultCode == Activity.RESULT_OK) {
+            data?.data?.let { uri ->
+                selectedImageUri = uri
+            }
+        }
+    }
+
+
+    private fun cancelBtn() {
+        binding.btnCancelAddItem.setOnClickListener {
+            callDialog()
+        }
+    }
+
+    private fun callGallery() {
+        addButton = binding.addImg
+        imageContainer = binding.imageContainer
+        addButton.setOnClickListener {
+            openImagePicker()
+        }
+    }
+    companion object {
+        private const val REQUEST_IMAGE_PICKER = 100
+    }
+    private fun callDialog() {
+        val dialogBinding = layoutInflater.inflate(R.layout.custom_cancel_editing, null)
+
+        val myDialog = Dialog(requireContext())
+        myDialog.setContentView(dialogBinding)
+
+        myDialog.setCancelable(true)
+        myDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        myDialog.show()
+
+        dialogBinding.confirm_btn.setOnClickListener {
+            findNavController().navigate(R.id.action_addItemFragment_to_mainFragment)
+            myDialog.dismiss()
+        }
+        dialogBinding.text_cancel.setOnClickListener {
+            myDialog.dismiss()
+        }
+    }
+}
 
 
 //    private fun inputItem() {
@@ -92,11 +192,11 @@ class AddItemFragment : Fragment() {
 //        }
 //    }
 
-    private fun openGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        intent.type = "image/*"
-        startActivityForResult(intent, PICK_IMAGE_REQUEST)
-    }
+//    private fun openGallery() {
+//        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+//        intent.type = "image/*"
+//        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+//    }
 
 //    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 //        super.onActivityResult(requestCode, resultCode, data)
@@ -125,18 +225,6 @@ class AddItemFragment : Fragment() {
 //    }
 
 
-    private fun getImagePath(uri: Uri): String? {
-        val implementOfImg = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = requireActivity().contentResolver.query(uri, implementOfImg, null, null, null)
-        val columnIndex = cursor?.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-        cursor?.moveToFirst()
-
-        val imagePath = columnIndex?.let { cursor.getString(it) }
-        cursor?.close()
-
-        return imagePath
-    }
-
 //    private fun uriToFile(uri: Uri): File {
 //        val filePath = requireActivity().contentResolver.openInputStream(uri)?.use { inputStream ->
 //            val file = File(requireContext().cacheDir, "temp_image")
@@ -148,103 +236,65 @@ class AddItemFragment : Fragment() {
 //        return File(filePath)
 //    }
 
-    private fun callDialog() {
-        val dialogBinding = layoutInflater.inflate(R.layout.custom_cancel_editing, null)
-
-        val myDialog = Dialog(requireContext())
-        myDialog.setContentView(dialogBinding)
-
-        myDialog.setCancelable(true)
-        myDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        myDialog.show()
-
-        dialogBinding.confirm_btn.setOnClickListener {
-            findNavController().navigate(R.id.action_addItemFragment_to_mainFragment)
-            myDialog.dismiss()
-        }
-        dialogBinding.text_cancel.setOnClickListener {
-            myDialog.dismiss()
-        }
-    }
-
-    private fun saveItem() {
-        binding.btnReadyAddItem.setOnClickListener {
-            createProduct()
-        }
-    }
-
-    private fun cancelBtn() {
-        binding.btnCancelAddItem.setOnClickListener {
-            callDialog()
-        }
-    }
-
-    private fun callGallery() {
-        addButton = binding.addImg
-        imageContainer = binding.imageContainer
-        addButton.setOnClickListener {
-            openImagePicker()
-        }
-    }
-
-    private fun createProduct() {
-        val name = binding.editTextName.text.toString()
-        val price = binding.editTextPrice.text.toString()
-        val shortDescription = binding.editTextShortD.text.toString()
-        val fullDescription = binding.editTextLongD.text.toString()
-
-        val token = Holder.access_token
-        val authHeader = "Bearer $token"
-
-        selectedImageUri?.let { imageUri ->
-            val imageFile = ImageConverter.getFile(requireContext(), imageUri)
-            if (imageFile != null) {
-                val imagePart = prepareImagePart(imageFile)
-                val imageParts = listOf(imagePart)
-
-                viewModel.inputItem(
-                    requireContext(),
-                    token = authHeader,
-                    name = name,
-                    price = price,
-                    short_description = shortDescription,
-                    full_description = fullDescription,
-                    imageUri = imageUri,
-                    onSuccess = { findNavController().navigate(R.id.mainFragment) },
-                    onError = { Toast.makeText(requireContext(), "Error creating product", Toast.LENGTH_SHORT).show() }
-                )
-            } else {
-                Toast.makeText(requireContext(), "Error converting image", Toast.LENGTH_SHORT).show()
-            }
-        } ?: run {
-            Toast.makeText(requireContext(), "Please select an image", Toast.LENGTH_SHORT).show()
-        }
-    }
-
-    private fun prepareImagePart(imageFile: File): MultipartBody.Part {
-        val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
-        return MultipartBody.Part.createFormData("photo", imageFile.name, requestFile)
-    }
-
-    private fun openImagePicker() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-        startActivityForResult(intent, REQUEST_IMAGE_PICKER)
-    }
-
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == REQUEST_IMAGE_PICKER && resultCode == Activity.RESULT_OK) {
-            data?.data?.let { uri ->
-                selectedImageUri = uri
-                // Display the selected image in an ImageView if needed
-            }
-        }
-    }
-
-    companion object {
-        private const val REQUEST_IMAGE_PICKER = 100
-    }
-}
+//
+//    private fun createProduct() {
+//        val name = binding.editTextName.text.toString()
+//        val price = binding.editTextPrice.text.toString()
+//        val shortDescription = binding.editTextShortD.text.toString()
+//        val fullDescription = binding.editTextLongD.text.toString()
+//
+//        val token = Holder.access_token
+//        val authHeader = "Bearer $token"
+//
+//        selectedImageUri?.let { imageUri ->
+//            val imageFile = ImageConverter.getFile(requireContext(), imageUri)
+//            if (imageFile != null) {
+//                val imagePart = prepareImagePart(imageFile)
+//                val imageParts = listOf(imagePart)
+//
+//                viewModel.inputItem(
+//                    requireContext(),
+//                    token = authHeader,
+//                    name = name,
+//                    price = price,
+//                    short_description = shortDescription,
+//                    full_description = fullDescription,
+//                    imageUri = imageUri,
+//                    onSuccess = { findNavController().navigate(R.id.mainFragment) },
+//                    onError = { Toast.makeText(requireContext(), "Error creating product", Toast.LENGTH_SHORT).show() }
+//                )
+//            } else {
+//                Toast.makeText(requireContext(), "Error converting image", Toast.LENGTH_SHORT).show()
+//            }
+//        } ?: run {
+//            Toast.makeText(requireContext(), "Please select an image", Toast.LENGTH_SHORT).show()
+//        }
+//    }
+//
+//    private fun prepareImagePart(imageFile: File): MultipartBody.Part {
+//        val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+//        return MultipartBody.Part.createFormData("photo", imageFile.name, requestFile)
+//    }
+//
+//    private fun openImagePicker() {
+//        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+//        startActivityForResult(intent, REQUEST_IMAGE_PICKER)
+//    }
+//
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        if (requestCode == REQUEST_IMAGE_PICKER && resultCode == Activity.RESULT_OK) {
+//            data?.data?.let { uri ->
+//                selectedImageUri = uri
+//                // Display the selected image in an ImageView if needed
+//            }
+//        }
+//    }
+//
+//    companion object {
+//        private const val REQUEST_IMAGE_PICKER = 100
+//    }
+//}
 //
 //    private fun setupPhoto() {
 //        addButton = binding.addImg

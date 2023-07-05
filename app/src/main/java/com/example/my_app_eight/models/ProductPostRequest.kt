@@ -1,10 +1,11 @@
 package com.example.my_app_eight.models
 
-import android.net.Uri
+import okhttp3.MultipartBody
 
 data class ProductPostRequest(
     val name: String,
     val price: String,
-    val description: String,
-    val photo: Uri?
+    val short_description: String,
+    val full_description: String,
+    val photo: List<MultipartBody.Part>
 )

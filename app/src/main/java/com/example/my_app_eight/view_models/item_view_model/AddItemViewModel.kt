@@ -1,19 +1,13 @@
 package com.example.my_app_eight.view_models.item_view_model
 
-import android.content.ContentResolver
 import android.content.Context
 import android.net.Uri
-import android.provider.MediaStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.my_app_eight.api.ProductAPI
 import com.example.my_app_eight.api.RetrofitInstance
 import com.example.my_app_eight.models.ProductResponse
 import com.example.my_app_eight.util.ImageConverter
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
@@ -22,12 +16,8 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
-import java.io.InputStream
 
 class AddItemViewModel : ViewModel() {
-
     private val _itemAddedSuccess = MutableLiveData<Boolean>()
     val itemAddedSuccess: LiveData<Boolean> = _itemAddedSuccess
 
@@ -38,17 +28,20 @@ class AddItemViewModel : ViewModel() {
         price: String,
         short_description: String,
         full_description: String,
-        imageUri: Uri,
-        onSuccess: () -> Unit,
-        onError: () -> Unit
+        imageUri: Uri
     ) {
         val apiInterface = RetrofitInstance.apiProduct
 
-        val nameSide = name.toRequestBody("text/plain".toMediaTypeOrNull())
-        val priceSide = price.toRequestBody("text/plain".toMediaTypeOrNull())
-        val shortDescriptionSide = short_description.toRequestBody("text/plain".toMediaTypeOrNull())
-        val fullDescriptionSide = full_description.toRequestBody("text/plain".toMediaTypeOrNull())
+        val nameRequest = name.toRequestBody()
+        val priceRequest = price.toRequestBody()
+        val shortDescriptionRequest = short_description.toRequestBody()
+        val fullDescriptionRequest = full_description.toRequestBody()
 
+//        val imageFile = ImageConverter.getFile(context, imageUri)
+//        val imagePart = imageFile?.let {
+//            val requestFile = it.asRequestBody("image/*".toMediaTypeOrNull())
+//            MultipartBody.Part.createFormData("photo", it.name, requestFile)
+//        }
         val imageFile = ImageConverter.getFile(context, imageUri)
         if (imageFile != null) {
             val imagePart = prepareImagePart(imageFile)
@@ -56,10 +49,10 @@ class AddItemViewModel : ViewModel() {
 
             apiInterface.productCreate(
                 token = token,
-                name = nameSide,
-                price = priceSide,
-                fullDescription = fullDescriptionSide,
-                shortDescription = shortDescriptionSide,
+                name = nameRequest,
+                price = priceRequest,
+                fullDescription = fullDescriptionRequest,
+                shortDescription = shortDescriptionRequest,
                 photo = imageParts
             ).enqueue(object : Callback<ProductResponse> {
                 override fun onResponse(
@@ -67,17 +60,16 @@ class AddItemViewModel : ViewModel() {
                     response: Response<ProductResponse>
                 ) {
                     if (response.isSuccessful) {
-                        onSuccess()
+                        _itemAddedSuccess.value = true
                     } else {
-                        onError()
+                        _itemAddedSuccess.value = false
                     }
                 }
+
                 override fun onFailure(call: Call<ProductResponse>, t: Throwable) {
-                    onError()
+                    _itemAddedSuccess.value = false
                 }
             })
-        } else {
-            onError()
         }
     }
 
@@ -86,6 +78,68 @@ class AddItemViewModel : ViewModel() {
         return MultipartBody.Part.createFormData("photo", imageFile.name, requestFile)
     }
 }
+
+//class AddItemViewModel : ViewModel() {
+//
+//    private val _itemAddedSuccess = MutableLiveData<Boolean>()
+//    val itemAddedSuccess: LiveData<Boolean> = _itemAddedSuccess
+//
+//    fun inputItem(
+//        context: Context,
+//        token: String,
+//        name: String,
+//        price: String,
+//        short_description: String,
+//        full_description: String,
+//        imageUri: Uri,
+//        onSuccess: () -> Unit,
+//        onError: () -> Unit
+//    ) {
+//        val apiInterface = RetrofitInstance.apiProduct
+//
+//        val nameSide = name.toRequestBody("text/plain".toMediaTypeOrNull())
+//        val priceSide = price.toRequestBody("text/plain".toMediaTypeOrNull())
+//        val shortDescriptionSide = short_description.toRequestBody("text/plain".toMediaTypeOrNull())
+//        val fullDescriptionSide = full_description.toRequestBody("text/plain".toMediaTypeOrNull())
+//
+//        val imageFile = ImageConverter.getFile(context, imageUri)
+//        if (imageFile != null) {
+//            val imagePart = prepareImagePart(imageFile)
+//            val imageParts = listOf(imagePart)
+//
+//            apiInterface.productCreate(
+//                token = token,
+//                name = nameSide,
+//                price = priceSide,
+//                fullDescription = fullDescriptionSide,
+//                shortDescription = shortDescriptionSide,
+//                photo = imageParts
+//            ).enqueue(object : Callback<ProductResponse> {
+//                override fun onResponse(
+//                    call: Call<ProductResponse>,
+//                    response: Response<ProductResponse>
+//                ) {
+//                    if (response.isSuccessful) {
+//                        onSuccess()
+//                    } else {
+//                        onError()
+//                    }
+//                }
+//
+//                override fun onFailure(call: Call<ProductResponse>, t: Throwable) {
+//                    onError()
+//                }
+//            })
+//        } else {
+//            onError()
+//        }
+//    }
+//
+//    private fun prepareImagePart(imageFile: File): MultipartBody.Part {
+//        val requestFile = imageFile.asRequestBody("image/*".toMediaTypeOrNull())
+//        return MultipartBody.Part.createFormData("photo", imageFile.name, requestFile)
+//    }
+//}
 
 //import android.content.Context
 //import android.util.Log
